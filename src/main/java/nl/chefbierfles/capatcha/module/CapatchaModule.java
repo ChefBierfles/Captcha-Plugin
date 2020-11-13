@@ -1,5 +1,6 @@
 package nl.chefbierfles.capatcha.module;
 
+import nl.chefbierfles.capatcha.models.enums.Permissions;
 import nl.chefbierfles.capatcha.models.inventories.CapatchaInventory;
 import nl.chefbierfles.capatcha.module.base.BaseModule;
 import org.bukkit.ChatColor;
@@ -30,6 +31,8 @@ public class CapatchaModule extends BaseModule {
         //TODO Check if capatcha is needed (Database)
 
         if(!isIsEnabled()) return;
+
+        if (player.hasPermission(Permissions.PERMISSION_CAPATCHA_BYPASS.toString())) return;
 
         openCapatchaMenu(player);
     }
