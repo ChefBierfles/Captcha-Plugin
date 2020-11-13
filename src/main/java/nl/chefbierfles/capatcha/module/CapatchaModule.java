@@ -80,7 +80,7 @@ public class CapatchaModule extends BaseModule {
 
         if (clickedItem.equals(capatchaInventory.getCorrectItem())) {
 
-            if (capatchaInventory.clickedCorrectItemHandler(event.getSlot(), (Player)event.getWhoClicked()) == 0) {
+            if (capatchaInventory.replaceCorrectItem(event.getSlot(), (Player)event.getWhoClicked()) == 0) {
                 //Capatcha is done
                 finishCapatcha(event.getWhoClicked().getUniqueId());
 

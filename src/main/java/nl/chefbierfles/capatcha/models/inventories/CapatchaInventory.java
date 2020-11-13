@@ -74,10 +74,26 @@ public class CapatchaInventory {
         this.mistakesMade += increment;
     }
 
+    public void addMistake() {
+        this.mistakesMade += 1;
+    }
+
+    public int getMistakesMade() {
+        return mistakesMade;
+    }
+
+    public int getMaxMistakes() {
+        return maxMistakes;
+    }
+
+    public Inventory getInventory() {
+        return inventory;
+    }
+
     /*
     When correct item has been clicked
      */
-    public int clickedCorrectItemHandler(int slot, Player player) {
+    public int replaceCorrectItem(int slot, Player player) {
         ItemStack[] inventoryContents = inventory.getContents();
         inventoryContents[slot] = getInvalidItem();
         inventory.setContents(inventoryContents);
@@ -96,22 +112,6 @@ public class CapatchaInventory {
         return correctItemsLeft;
     }
 
-    public void addMistake() {
-        this.mistakesMade += 1;
-    }
-
-    public int getMistakesMade() {
-        return mistakesMade;
-    }
-
-    public int getMaxMistakes() {
-        return maxMistakes;
-    }
-
-    public Inventory getInventory() {
-        return inventory;
-    }
-
     private void getRandomColorOption() {
         //Pick random first color
         correctItem = capatchaOptions[new Random().nextInt(capatchaOptions.length)];
@@ -124,7 +124,7 @@ public class CapatchaInventory {
     private void generateMenuBackground() {
         //Generate items;
         //region Glass item
-        ItemStack glassItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short)7);
+        ItemStack glassItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 7);
         ItemMeta glassItemMeta = glassItem.getItemMeta();
 
         glassItemMeta.setDisplayName(" ");
@@ -147,38 +147,38 @@ public class CapatchaInventory {
         informationItem = signItem;
         //endregion
 
-        for(int index = 0; index < inventory.getSize(); index++) {
+        for (int index = 0; index < inventory.getSize(); index++) {
 
-                if (index <= 8) {
+            if (index <= 8) {
 
-                    if (index == 4) {
-                        inventoryContents[index] = informationItem;
-                        continue;
-                    }
-
-                    inventoryContents[index] = backgroundItem;
-
+                if (index == 4) {
+                    inventoryContents[index] = informationItem;
                     continue;
                 }
 
-                if (index > 8 && index <= 44) {
+                inventoryContents[index] = backgroundItem;
 
-                    double correctItemChance = Math.random();
-
-                    if (correctItemChance < 0.25) {
-                        inventoryContents[index] = correctItem.getItemStack();
-                    } else {
-                        inventoryContents[index] = invalidItem.getItemStack();
-                    }
-
-                    continue;
-                }
-
-                if (index >= 45) {
-                    inventoryContents[index] = backgroundItem;
-                }
-
+                continue;
             }
+
+            if (index > 8 && index <= 44) {
+
+                double correctItemChance = Math.random();
+
+                if (correctItemChance < 0.25) {
+                    inventoryContents[index] = correctItem.getItemStack();
+                } else {
+                    inventoryContents[index] = invalidItem.getItemStack();
+                }
+
+                continue;
+            }
+
+            if (index >= 45) {
+                inventoryContents[index] = backgroundItem;
+            }
+
+        }
 
         return inventoryContents;
     }
