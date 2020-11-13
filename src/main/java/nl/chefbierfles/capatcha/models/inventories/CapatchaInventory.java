@@ -124,7 +124,7 @@ public class CapatchaInventory {
     private void generateMenuBackground() {
         //Generate items;
         //region Glass item
-        ItemStack glassItem = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
+        ItemStack glassItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short)7);
         ItemMeta glassItemMeta = glassItem.getItemMeta();
 
         glassItemMeta.setDisplayName(" ");
@@ -138,7 +138,7 @@ public class CapatchaInventory {
         ItemStack[] inventoryContents = new ItemStack[inventory.getSize()];
 
         //region Sign item
-        ItemStack signItem = new ItemStack(Material.OAK_SIGN);
+        ItemStack signItem = new ItemStack(Material.SIGN);
         ItemMeta signItemMeta = signItem.getItemMeta();
 
         signItemMeta.setDisplayName(" ");
