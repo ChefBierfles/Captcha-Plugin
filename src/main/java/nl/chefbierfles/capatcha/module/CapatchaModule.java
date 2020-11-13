@@ -40,7 +40,7 @@ public class CapatchaModule extends BaseModule {
     public static void onPlayerQuitHandler(Player player) {
         if(!isIsEnabled()) return;
 
-        finishCapatcha(player.getUniqueId());
+        removeCapatcha(player.getUniqueId());
     }
 
     /*
@@ -67,6 +67,7 @@ public class CapatchaModule extends BaseModule {
             //Check of maximaal bereikt is
             if (capatchaInventory.getMistakesMade() == capatchaInventory.getMaxMistakes()) {
                 ((Player) event.getWhoClicked()).kickPlayer("Te veel ongeldige pogingen!");
+                removeCapatcha(event.getWhoClicked().getUniqueId());
                 return true;
             }
 
@@ -79,7 +80,6 @@ public class CapatchaModule extends BaseModule {
             if (capatchaInventory.clickedCorrectItemHandler(event.getSlot(), (Player)event.getWhoClicked()) == 0) {
                 //Capatcha is done
                 finishCapatcha(event.getWhoClicked().getUniqueId());
-                //TODO: Zet database waarde om over een maand weer te controleren
 
                 event.getWhoClicked().closeInventory();
                 event.getWhoClicked().sendMessage(ChatColor.GREEN + "Je hebt de capatcha succesvol afgerond.");
@@ -201,8 +201,19 @@ public class CapatchaModule extends BaseModule {
     /*
     Remove menu reference for player
      */
+    private static void removeCapatcha(UUID uuid) {
+        if (!openCapatchaMenus.containsKey(uuid)) return;
+
+        openCapatchaMenus.remove(uuid);
+    }
+
+    /*
+    Remove menu reference for player
+    */
     private static void finishCapatcha(UUID uuid) {
         if (!openCapatchaMenus.containsKey(uuid)) return;
+
+        //TODO: Zet database waarde om over een maand weer te controleren
 
         openCapatchaMenus.remove(uuid);
     }
