@@ -1,0 +1,4 @@
+name: Recapatcha
+version: ${project.version}
+main: nl.chefbierfles.recapatcha.Plugin
+api-version: 1.16
