@@ -28,13 +28,17 @@ public class CapatchaModule extends BaseModule {
      */
     public static void onPlayerJoinHandler(Player player) {
 
-        //TODO Check if capatcha is needed (Database)
-
         if(!isIsEnabled()) return;
 
         if (player.hasPermission(Permissions.PERMISSION_CAPATCHA_BYPASS.toString())) return;
 
-        openCapatchaMenu(player);
+        //TODO Check if capatcha is needed (Database)
+        // Get latest date and trasnform it into expire date
+        Date expireDate = Date.from(DatabaseModule.getCapatchaData(player.getUniqueId()).toInstant().plusSeconds(30));
+        // If current date is later then expire date
+        if (new Date().after(expireDate)) {
+            openCapatchaMenu(player);
+        }
     }
 
     /*
@@ -217,6 +221,7 @@ public class CapatchaModule extends BaseModule {
         if (!openCapatchaMenus.containsKey(uuid)) return;
 
         //TODO: Zet database waarde om over een maand weer te controleren
+        DatabaseModule.addCapatchaData(uuid, Calendar.getInstance().getTime());
 
         openCapatchaMenus.remove(uuid);
     }
