@@ -12,6 +12,8 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.time.Instant;
+import java.time.Period;
+import java.time.temporal.TemporalUnit;
 import java.util.*;
 
 public class CapatchaModule extends BaseModule {
@@ -42,7 +44,7 @@ public class CapatchaModule extends BaseModule {
 
         Instant lastInstant = DatabaseModule.getCapatchaData(player.getUniqueId());
         // If current date is later then expire date
-        if (lastInstant == null || Instant.now().isAfter(lastInstant.plusSeconds(30))) {
+        if (lastInstant == null || Instant.now().isAfter(lastInstant.plus(Period.ofMonths(1)))) {
             openCapatchaMenu(player);
         }
     }
