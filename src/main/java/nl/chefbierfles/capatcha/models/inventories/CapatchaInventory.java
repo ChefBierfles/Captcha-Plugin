@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.*;
 
@@ -25,6 +26,10 @@ public class CapatchaInventory {
     private int mistakesMade = 0;
     //TODO: Hookup to configfile
     private int maxMistakes = 3;
+
+    private int inventoryClosed = 0;
+    private int maxInventoryClosed = 3;
+
     /*
         Could be hooked up to a config
          */
@@ -90,9 +95,21 @@ public class CapatchaInventory {
         return inventory;
     }
 
+    public int getInventoryClosed() {
+        return inventoryClosed;
+    }
+
+    public int getMaxInventoryClosed() {
+        return maxInventoryClosed;
+    }
+
+    public void addInventoryClosed() {
+        this.inventoryClosed += 1;
+    }
+
     /*
-    When correct item has been clicked
-     */
+        When correct item has been clicked
+         */
     public int replaceCorrectItem(int slot, Player player) {
         ItemStack[] inventoryContents = inventory.getContents();
         inventoryContents[slot] = getInvalidItem();
@@ -102,7 +119,7 @@ public class CapatchaInventory {
 
         for (int index = 0; index < inventoryContents.length; index++) {
 
-            if (inventoryContents[index].equals(getCorrectItem())) {
+            if (inventoryContents[index].getItemMeta().getDisplayName() == correctItem.getItemStack().getItemMeta().getDisplayName()) {
                 correctItemsLeft++;
             }
         }
@@ -119,6 +136,16 @@ public class CapatchaInventory {
         while (invalidItem == null || correctItem == invalidItem) {
             invalidItem = capatchaOptions[new Random().nextInt(capatchaOptions.length)];
         }
+
+        SkullMeta correctItemMeta = (SkullMeta) correctItem.getItemStack().getItemMeta();
+        String correctItemDesc = correctItem.getDescription();
+        correctItemMeta.setDisplayName(correctItemDesc.substring(0, 1).toUpperCase() + correctItemDesc.substring(1));
+        correctItem.getItemStack().setItemMeta(correctItemMeta);
+
+        SkullMeta invalidItemMeta = (SkullMeta) invalidItem.getItemStack().getItemMeta();
+        String invalidItemDesc = invalidItem.getDescription();
+        invalidItemMeta.setDisplayName(invalidItemDesc.substring(0, 1).toUpperCase() + invalidItemDesc.substring(1));
+        invalidItem.getItemStack().setItemMeta(invalidItemMeta);
     }
 
     private void generateMenuBackground() {

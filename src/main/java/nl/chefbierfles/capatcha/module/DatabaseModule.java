@@ -1,9 +1,12 @@
 package nl.chefbierfles.capatcha.module;
 
 import com.mongodb.*;
+import nl.chefbierfles.capatcha.Plugin;
 import nl.chefbierfles.capatcha.models.enums.DatabaseFields;
+import org.bukkit.Bukkit;
 
 import javax.annotation.Nullable;
+import java.lang.reflect.InvocationTargetException;
 import java.net.UnknownHostException;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -15,59 +18,61 @@ public class DatabaseModule {
     private static DBCollection players;
     private static DB playersDb;
     private static MongoClient client;
-    public static boolean connect(String authUser, String encodedPwd, String hostName, String dbName){
-        try {
-            // Mongodb connection string.
-            String client_url = "mongodb://" + authUser + ":" + encodedPwd + "@" + hostName + "/" + dbName;
-            MongoClientURI uri = new MongoClientURI(client_url);
-            client = new MongoClient(uri);
-        } catch (UnknownHostException e) {
-            System.out.println("Could not connect to database!");
-            e.printStackTrace();
-            return false;
-        }
+
+    public static boolean connect(String authUser, String encodedPwd, String hostName, String dbName) {
+        // Mongodb connection string.
+
+        String client_url = "mongodb+srv://" + authUser + ":" + encodedPwd + "@" + hostName + "/" + dbName + "?retryWrites=true&w=majority";
+
+        MongoClientURI uri = new MongoClientURI(client_url);
+        client = new MongoClient(uri);
 
         playersDb = client.getDB("Capatcha");
+        players = playersDb.getCollection("players");
         return true;
     }
 
-    public static void addCapatchaData(UUID uuid, Date date) {
+    public static void addCapatchaData(UUID uuid, Instant instant) {
         DBObject dbObject = new BasicDBObject("uuid", uuid);
-
         DBObject result = getResults(dbObject);
 
         if (result != null) {
             //Result already exists
-            updateCapatchaData(uuid, date);
+            updateCapatchaData(uuid, instant);
             return;
         }
 
-        dbObject.put(DatabaseFields.CAPATCHA_LASTDONE_DATE.toString(), date.toInstant());
+        dbObject.put(DatabaseFields.CAPATCHA_LASTDONE_DATE.toString(), instant);
         players.insert(dbObject);
     }
 
-    public static void updateCapatchaData(UUID uuid, Date date) {
+    public static void updateCapatchaData(UUID uuid, Instant instant) {
         DBObject dbObject = new BasicDBObject("uuid", uuid);
 
-        DBObject result = getResults(dbObject);
-
-        if (result == null) {
-            addCapatchaData(uuid, date);
+        DBObject found = players.findOne(dbObject);
+        if (found == null ){
+            addCapatchaData(uuid, instant);
             return;
         }
 
-        DBObject newDbObj = new BasicDBObject("uuid", uuid);
-        result.put(DatabaseFields.CAPATCHA_LASTDONE_DATE.toString(), date);
-        players.update(result, newDbObj);
+        DBObject obj = new BasicDBObject("uuid", uuid);
+        obj.put(DatabaseFields.CAPATCHA_LASTDONE_DATE.toString(), instant);
+
+        players.update(found, obj);
     }
 
     @Nullable
-    public static Date getCapatchaData(UUID uuid) {
+    public static Instant getCapatchaData(UUID uuid) {
+
         DBObject dbObject = new BasicDBObject("uuid", uuid);
 
         DBObject result = getResults(dbObject);
 
-        return Date.from((Instant)result.get(DatabaseFields.CAPATCHA_LASTDONE_DATE.toString()));
+        if (result == null) return null;
+
+        Date date = (Date) result.get(DatabaseFields.CAPATCHA_LASTDONE_DATE.toString());
+
+        return date.toInstant();
     }
 
     private static DBObject getResults(DBObject dbObject) {
