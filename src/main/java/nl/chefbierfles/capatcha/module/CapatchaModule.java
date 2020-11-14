@@ -4,6 +4,7 @@ import nl.chefbierfles.capatcha.Plugin;
 import nl.chefbierfles.capatcha.models.enums.Permissions;
 import nl.chefbierfles.capatcha.models.inventories.CapatchaInventory;
 import nl.chefbierfles.capatcha.module.base.BaseModule;
+import org.apache.commons.lang3.time.DateUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -13,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.time.Instant;
 import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalUnit;
 import java.util.*;
 
@@ -24,11 +26,16 @@ public class CapatchaModule extends BaseModule {
     Open inventory
      */
     public static void openCapatchaMenu(Player player) {
-        CapatchaInventory capatchaInventory = getCapatchaMenu(player.getUniqueId());
-        Bukkit.getScheduler().runTask(Plugin.getInstance(), new Runnable() {
+        Bukkit.getScheduler().runTaskAsynchronously(Plugin.getInstance(), new Runnable() {
             @Override
             public void run() {
-                player.openInventory(capatchaInventory.getInventory());
+                CapatchaInventory capatchaInventory = getCapatchaMenu(player.getUniqueId());
+                Bukkit.getScheduler().runTask(Plugin.getInstance(), new Runnable() {
+                    @Override
+                    public void run() {
+                        player.openInventory(capatchaInventory.getInventory());
+                    }
+                });
             }
         });
     }
@@ -42,9 +49,12 @@ public class CapatchaModule extends BaseModule {
 
         if (player.hasPermission(Permissions.PERMISSION_CAPATCHA_BYPASS.toString())) return;
 
-        Instant lastInstant = DatabaseModule.getCapatchaData(player.getUniqueId());
+        DatabaseModule.getCapatchaData(player);
+    }
+
+    public static void playerJoinCallback(Date lastdate, Player player) {
         // If current date is later then expire date
-        if (lastInstant == null || Instant.now().isAfter(lastInstant.plus(Period.ofMonths(1)))) {
+        if (lastdate == null || new Date().after(DateUtils.addMonths(lastdate, 1))) {
             openCapatchaMenu(player);
         }
     }
@@ -120,7 +130,12 @@ public class CapatchaModule extends BaseModule {
         if (!player.getOpenInventory().equals(capatchaInventory)) {
             //Re-open menu
             if (capatchaInventory.getInventoryClosed() > capatchaInventory.getMaxInventoryClosed()) {
-                player.kickPlayer(ChatColor.RED + "Te veel ongeldige pogingen!");
+                Bukkit.getScheduler().runTask(Plugin.getInstance(), new Runnable() {
+                    @Override
+                    public void run() {
+                        player.kickPlayer(ChatColor.RED + "Te veel ongeldige pogingen!");
+                    }
+                });
                 return true;
             }
             capatchaInventory.addInventoryClosed();
@@ -227,7 +242,7 @@ public class CapatchaModule extends BaseModule {
         if (!openCapatchaMenus.containsKey(uuid)) return;
 
         //TODO: Zet database waarde om over een maand weer te controleren
-        DatabaseModule.addCapatchaData(uuid, Instant.now());
+        DatabaseModule.addCapatchaData(uuid, Calendar.getInstance().getTime());
 
         openCapatchaMenus.remove(uuid);
     }

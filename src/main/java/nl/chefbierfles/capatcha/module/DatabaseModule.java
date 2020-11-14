@@ -4,6 +4,7 @@ import com.mongodb.*;
 import nl.chefbierfles.capatcha.Plugin;
 import nl.chefbierfles.capatcha.models.enums.DatabaseFields;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import javax.annotation.Nullable;
 import java.lang.reflect.InvocationTargetException;
@@ -32,47 +33,48 @@ public class DatabaseModule {
         return true;
     }
 
-    public static void addCapatchaData(UUID uuid, Instant instant) {
+    public static void addCapatchaData(UUID uuid, Date date) {
         DBObject dbObject = new BasicDBObject("uuid", uuid);
         DBObject result = getResults(dbObject);
 
         if (result != null) {
             //Result already exists
-            updateCapatchaData(uuid, instant);
+            updateCapatchaData(uuid, date);
             return;
         }
 
-        dbObject.put(DatabaseFields.CAPATCHA_LASTDONE_DATE.toString(), instant);
+        dbObject.put(DatabaseFields.CAPATCHA_LASTDONE_DATE.toString(), date);
         players.insert(dbObject);
     }
 
-    public static void updateCapatchaData(UUID uuid, Instant instant) {
+    public static void updateCapatchaData(UUID uuid, Date date) {
         DBObject dbObject = new BasicDBObject("uuid", uuid);
 
         DBObject found = players.findOne(dbObject);
         if (found == null ){
-            addCapatchaData(uuid, instant);
+            addCapatchaData(uuid, date);
             return;
         }
 
         DBObject obj = new BasicDBObject("uuid", uuid);
-        obj.put(DatabaseFields.CAPATCHA_LASTDONE_DATE.toString(), instant);
+        obj.put(DatabaseFields.CAPATCHA_LASTDONE_DATE.toString(), date);
 
         players.update(found, obj);
     }
 
-    @Nullable
-    public static Instant getCapatchaData(UUID uuid) {
+    public static void getCapatchaData(Player player) {
+        Bukkit.getScheduler().runTaskAsynchronously(Plugin.getInstance(), new Runnable() {
+            @Override
+            public void run() {
+                DBObject dbObject = new BasicDBObject("uuid", player.getUniqueId());
 
-        DBObject dbObject = new BasicDBObject("uuid", uuid);
+                DBObject result = getResults(dbObject);
 
-        DBObject result = getResults(dbObject);
+                Date date = (result == null) ? null : (Date) result.get(DatabaseFields.CAPATCHA_LASTDONE_DATE.toString());
 
-        if (result == null) return null;
-
-        Date date = (Date) result.get(DatabaseFields.CAPATCHA_LASTDONE_DATE.toString());
-
-        return date.toInstant();
+                Bukkit.getScheduler().runTask(Plugin.getInstance(), () -> CapatchaModule.playerJoinCallback(date, player));
+            }
+        });
     }
 
     private static DBObject getResults(DBObject dbObject) {
