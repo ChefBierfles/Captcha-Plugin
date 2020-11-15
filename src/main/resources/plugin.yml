@@ -1,4 +1,4 @@
-name: Recapatcha
+name: Capatcha
 version: ${project.version}
-main: nl.chefbierfles.recapatcha.Plugin
-api-version: 1.16
+main: nl.chefbierfles.capatcha.Plugin
+api-version: 1.12

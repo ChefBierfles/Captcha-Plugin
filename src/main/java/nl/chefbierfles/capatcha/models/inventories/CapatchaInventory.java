@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.*;
 
@@ -25,6 +26,10 @@ public class CapatchaInventory {
     private int mistakesMade = 0;
     //TODO: Hookup to configfile
     private int maxMistakes = 3;
+
+    private int inventoryClosed = 0;
+    private int maxInventoryClosed = 3;
+
     /*
         Could be hooked up to a config
          */
@@ -74,28 +79,6 @@ public class CapatchaInventory {
         this.mistakesMade += increment;
     }
 
-    /*
-    When correct item has been clicked
-     */
-    public int clickedCorrectItemHandler(int slot, Player player) {
-        ItemStack[] inventoryContents = inventory.getContents();
-        inventoryContents[slot] = getInvalidItem();
-        inventory.setContents(inventoryContents);
-
-        int correctItemsLeft = 0;
-
-        for (int index = 0; index < inventoryContents.length; index++) {
-
-            if (inventoryContents[index].equals(getCorrectItem())) {
-                correctItemsLeft++;
-            }
-        }
-
-        player.updateInventory();
-
-        return correctItemsLeft;
-    }
-
     public void addMistake() {
         this.mistakesMade += 1;
     }
@@ -112,6 +95,40 @@ public class CapatchaInventory {
         return inventory;
     }
 
+    public int getInventoryClosed() {
+        return inventoryClosed;
+    }
+
+    public int getMaxInventoryClosed() {
+        return maxInventoryClosed;
+    }
+
+    public void addInventoryClosed() {
+        this.inventoryClosed += 1;
+    }
+
+    /*
+        When correct item has been clicked
+         */
+    public int replaceCorrectItem(int slot, Player player) {
+        ItemStack[] inventoryContents = inventory.getContents();
+        inventoryContents[slot] = getInvalidItem();
+        inventory.setContents(inventoryContents);
+
+        int correctItemsLeft = 0;
+
+        for (int index = 0; index < inventoryContents.length; index++) {
+
+            if (inventoryContents[index].getItemMeta().getDisplayName() == correctItem.getItemStack().getItemMeta().getDisplayName()) {
+                correctItemsLeft++;
+            }
+        }
+
+        player.updateInventory();
+
+        return correctItemsLeft;
+    }
+
     private void getRandomColorOption() {
         //Pick random first color
         correctItem = capatchaOptions[new Random().nextInt(capatchaOptions.length)];
@@ -119,12 +136,22 @@ public class CapatchaInventory {
         while (invalidItem == null || correctItem == invalidItem) {
             invalidItem = capatchaOptions[new Random().nextInt(capatchaOptions.length)];
         }
+
+        SkullMeta correctItemMeta = (SkullMeta) correctItem.getItemStack().getItemMeta();
+        String correctItemDesc = correctItem.getDescription();
+        correctItemMeta.setDisplayName(correctItemDesc.substring(0, 1).toUpperCase() + correctItemDesc.substring(1));
+        correctItem.getItemStack().setItemMeta(correctItemMeta);
+
+        SkullMeta invalidItemMeta = (SkullMeta) invalidItem.getItemStack().getItemMeta();
+        String invalidItemDesc = invalidItem.getDescription();
+        invalidItemMeta.setDisplayName(invalidItemDesc.substring(0, 1).toUpperCase() + invalidItemDesc.substring(1));
+        invalidItem.getItemStack().setItemMeta(invalidItemMeta);
     }
 
     private void generateMenuBackground() {
         //Generate items;
         //region Glass item
-        ItemStack glassItem = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
+        ItemStack glassItem = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 7);
         ItemMeta glassItemMeta = glassItem.getItemMeta();
 
         glassItemMeta.setDisplayName(" ");
@@ -138,7 +165,7 @@ public class CapatchaInventory {
         ItemStack[] inventoryContents = new ItemStack[inventory.getSize()];
 
         //region Sign item
-        ItemStack signItem = new ItemStack(Material.OAK_SIGN);
+        ItemStack signItem = new ItemStack(Material.SIGN);
         ItemMeta signItemMeta = signItem.getItemMeta();
 
         signItemMeta.setDisplayName(" ");
@@ -147,38 +174,38 @@ public class CapatchaInventory {
         informationItem = signItem;
         //endregion
 
-        for(int index = 0; index < inventory.getSize(); index++) {
+        for (int index = 0; index < inventory.getSize(); index++) {
 
-                if (index <= 8) {
+            if (index <= 8) {
 
-                    if (index == 4) {
-                        inventoryContents[index] = informationItem;
-                        continue;
-                    }
-
-                    inventoryContents[index] = backgroundItem;
-
+                if (index == 4) {
+                    inventoryContents[index] = informationItem;
                     continue;
                 }
 
-                if (index > 8 && index <= 44) {
+                inventoryContents[index] = backgroundItem;
 
-                    double correctItemChance = Math.random();
-
-                    if (correctItemChance < 0.25) {
-                        inventoryContents[index] = correctItem.getItemStack();
-                    } else {
-                        inventoryContents[index] = invalidItem.getItemStack();
-                    }
-
-                    continue;
-                }
-
-                if (index >= 45) {
-                    inventoryContents[index] = backgroundItem;
-                }
-
+                continue;
             }
+
+            if (index > 8 && index <= 44) {
+
+                double correctItemChance = Math.random();
+
+                if (correctItemChance < 0.25) {
+                    inventoryContents[index] = correctItem.getItemStack();
+                } else {
+                    inventoryContents[index] = invalidItem.getItemStack();
+                }
+
+                continue;
+            }
+
+            if (index >= 45) {
+                inventoryContents[index] = backgroundItem;
+            }
+
+        }
 
         return inventoryContents;
     }

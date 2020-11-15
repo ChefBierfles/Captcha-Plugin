@@ -41,7 +41,7 @@ public class SkullHelper {
     }
 
     public static ItemStack getPlayerSkull() {
-        return new ItemStack(Material.PLAYER_HEAD);
+        return new ItemStack(Material.SKULL_ITEM, 1, (short)3);
     }
 
     private static void mutateItemMeta(SkullMeta meta, String b64) {

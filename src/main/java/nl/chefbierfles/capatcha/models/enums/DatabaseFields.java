@@ -1,15 +1,15 @@
 package nl.chefbierfles.capatcha.models.enums;
 
-public enum Permissions {
+public enum DatabaseFields {
 
     /*
     Allow to bypass the capatcha
-     */
-    PERMISSION_CAPATCHA_BYPASS("capatcha.bypass");
+    */
+    CAPATCHA_LASTDONE_DATE("lastDoneDate");
 
     private final String value;
 
-    Permissions(String value) {
+    DatabaseFields(String value) {
         this.value = value;
     }
 
@@ -17,5 +17,4 @@ public enum Permissions {
     public String toString() {
         return value;
     }
-
 }
