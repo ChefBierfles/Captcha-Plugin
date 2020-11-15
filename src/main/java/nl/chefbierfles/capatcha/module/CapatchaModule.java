@@ -77,12 +77,14 @@ public class CapatchaModule extends BaseModule {
 
         if (!(event.getWhoClicked() instanceof Player)) return false;
 
-        CapatchaInventory capatchaInventory = getCapatchaMenu(event.getWhoClicked().getUniqueId());
-
         if (event.getClickedInventory() == null) return false;
 
+        if (!hasCapatcha(event.getWhoClicked().getUniqueId())) return false;
+
+        CapatchaInventory capatchaInventory = getCapatchaMenu(event.getWhoClicked().getUniqueId());
+
         //Check inventory is a capatcha Inventory
-        if (!event.getClickedInventory().equals(capatchaInventory.getInventory())) return false;
+        if (!event.getClickedInventory().getTitle().equals(capatchaInventory.getInventory().getTitle())) return false;
 
         ItemStack clickedItem = event.getCurrentItem();
 
@@ -241,7 +243,7 @@ public class CapatchaModule extends BaseModule {
     private static void finishCapatcha(UUID uuid) {
         if (!openCapatchaMenus.containsKey(uuid)) return;
 
-        //TODO: Zet database waarde om over een maand weer te controleren
+        //Zet database waarde om over een maand weer te controleren
         DatabaseModule.addCapatchaData(uuid, Calendar.getInstance().getTime());
 
         openCapatchaMenus.remove(uuid);
