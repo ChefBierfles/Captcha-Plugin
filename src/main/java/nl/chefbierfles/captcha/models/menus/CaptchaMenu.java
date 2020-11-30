@@ -1,8 +1,7 @@
 package nl.chefbierfles.captcha.models.menus;
 
-import nl.chefbierfles.captcha.helpers.SkullHelper;
 import nl.chefbierfles.captcha.models.CapatchaItem;
-import nl.chefbierfles.captcha.models.constants.PlayerHeads;
+import nl.chefbierfles.captcha.models.constants.captcha.CaptchaOptions;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -14,7 +13,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.*;
 
-public class CapatchaMenu {
+public class CaptchaMenu {
 
     private Inventory inventory;
     private CapatchaItem correctItem;
@@ -30,19 +29,7 @@ public class CapatchaMenu {
     private int inventoryClosed = 0;
     private int maxInventoryClosed = 3;
 
-    /*
-        Could be hooked up to a config
-         */
-    private CapatchaItem[] capatchaOptions = new CapatchaItem[]{
-            new CapatchaItem(SkullHelper.itemWithBase64(PlayerHeads.COLOR_LIME.toString()), "groene"),
-            new CapatchaItem(SkullHelper.itemWithBase64(PlayerHeads.COLOR_RED.toString()), "rode"),
-            new CapatchaItem(SkullHelper.itemWithBase64(PlayerHeads.COLOR_ROYAL_BLUE.toString()), "blauwe"),
-            new CapatchaItem(SkullHelper.itemWithBase64(PlayerHeads.COLOR_WHITE.toString()), "witte"),
-            new CapatchaItem(SkullHelper.itemWithBase64(PlayerHeads.COLOR_DEEP_PINK.toString()), "roze"),
-            new CapatchaItem(SkullHelper.itemWithBase64(PlayerHeads.COLOR_ORANGE.toString()), "oranje")
-    };
-
-    public CapatchaMenu() {
+    public CaptchaMenu() {
 
         initMenu();
     }
@@ -130,11 +117,13 @@ public class CapatchaMenu {
     }
 
     private void getRandomColorOption() {
+        CapatchaItem[] captchaOptions = CaptchaOptions.getOptions();
+
         //Pick random first color
-        correctItem = capatchaOptions[new Random().nextInt(capatchaOptions.length)];
+        correctItem = captchaOptions[new Random().nextInt(captchaOptions.length)];
         //Keep picking till correct item doesnt match invlid item
         while (invalidItem == null || correctItem == invalidItem) {
-            invalidItem = capatchaOptions[new Random().nextInt(capatchaOptions.length)];
+            invalidItem = captchaOptions[new Random().nextInt(captchaOptions.length)];
         }
 
         SkullMeta correctItemMeta = (SkullMeta) correctItem.getItemStack().getItemMeta();

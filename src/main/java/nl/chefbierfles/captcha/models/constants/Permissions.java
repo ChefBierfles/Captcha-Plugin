@@ -5,6 +5,6 @@ public class Permissions {
     /*
     Allow to bypass the capatcha
      */
-    public static String PERMISSION_CAPATCHA_BYPASS = "capatcha.bypass";
+    public static String PERMISSION_CAPTCHA_BYPASS = "capatcha.bypass";
 
 }

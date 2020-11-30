@@ -3,13 +3,14 @@ package nl.chefbierfles.captcha.module;
 import com.mongodb.*;
 import nl.chefbierfles.captcha.Plugin;
 import nl.chefbierfles.captcha.models.constants.DatabaseFields;
+import nl.chefbierfles.captcha.module.base.BaseModule;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.Date;
 import java.util.UUID;
 
-public class DatabaseModule {
+public final class DatabaseModule extends BaseModule {
 
     private static DBCollection players;
     private static DB playersDb;
@@ -46,7 +47,7 @@ public class DatabaseModule {
         DBObject dbObject = new BasicDBObject("uuid", uuid);
 
         DBObject found = players.findOne(dbObject);
-        if (found == null ){
+        if (found == null) {
             addCapatchaData(uuid, date);
             return;
         }
@@ -57,18 +58,15 @@ public class DatabaseModule {
         players.update(found, obj);
     }
 
-    public static void getCapatchaData(Player player) {
-        Bukkit.getScheduler().runTaskAsynchronously(Plugin.getInstance(), new Runnable() {
-            @Override
-            public void run() {
-                DBObject dbObject = new BasicDBObject("uuid", player.getUniqueId());
+    public static void getCaptchaData(Player player) {
+        Bukkit.getScheduler().runTaskAsynchronously(Plugin.getInstance(), () -> {
+            DBObject dbObject = new BasicDBObject("uuid", player.getUniqueId());
 
-                DBObject result = getResults(dbObject);
+            DBObject result = getResults(dbObject);
 
-                Date date = (result == null) ? null : (Date) result.get(DatabaseFields.CAPATCHA_LASTDONE_DATE.toString());
+            Date date = (result == null) ? null : (Date) result.get(DatabaseFields.CAPATCHA_LASTDONE_DATE.toString());
 
-                Bukkit.getScheduler().runTask(Plugin.getInstance(), () -> CapatchaModule.playerJoinCallback(date, player));
-            }
+            Bukkit.getScheduler().runTask(Plugin.getInstance(), () -> CaptchaModule.playerJoinCallback(date, player));
         });
     }
 
