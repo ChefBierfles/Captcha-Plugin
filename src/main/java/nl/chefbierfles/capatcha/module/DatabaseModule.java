@@ -2,15 +2,10 @@ package nl.chefbierfles.capatcha.module;
 
 import com.mongodb.*;
 import nl.chefbierfles.capatcha.Plugin;
-import nl.chefbierfles.capatcha.models.enums.DatabaseFields;
+import nl.chefbierfles.capatcha.models.constants.DatabaseFields;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import javax.annotation.Nullable;
-import java.lang.reflect.InvocationTargetException;
-import java.net.UnknownHostException;
-import java.time.Instant;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.UUID;
 

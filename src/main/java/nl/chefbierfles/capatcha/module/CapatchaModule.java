@@ -1,21 +1,16 @@
 package nl.chefbierfles.capatcha.module;
 
 import nl.chefbierfles.capatcha.Plugin;
-import nl.chefbierfles.capatcha.models.enums.Permissions;
-import nl.chefbierfles.capatcha.models.inventories.CapatchaInventory;
+import nl.chefbierfles.capatcha.models.constants.Permissions;
+import nl.chefbierfles.capatcha.models.menus.CapatchaInventory;
 import nl.chefbierfles.capatcha.module.base.BaseModule;
 import org.apache.commons.lang3.time.DateUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.time.Instant;
-import java.time.Period;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
 import java.util.*;
 
 public class CapatchaModule extends BaseModule {

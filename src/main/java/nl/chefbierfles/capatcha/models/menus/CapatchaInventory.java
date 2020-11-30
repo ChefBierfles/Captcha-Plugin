@@ -1,8 +1,8 @@
-package nl.chefbierfles.capatcha.models.inventories;
+package nl.chefbierfles.capatcha.models.menus;
 
 import nl.chefbierfles.capatcha.helpers.SkullHelper;
 import nl.chefbierfles.capatcha.models.CapatchaItem;
-import nl.chefbierfles.capatcha.models.enums.PlayerHeads;
+import nl.chefbierfles.capatcha.models.constants.PlayerHeads;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
