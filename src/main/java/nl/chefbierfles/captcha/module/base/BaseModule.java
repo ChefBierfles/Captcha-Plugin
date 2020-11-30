@@ -1,4 +1,4 @@
-package nl.chefbierfles.capatcha.module.base;
+package nl.chefbierfles.captcha.module.base;
 
 public class BaseModule {
 

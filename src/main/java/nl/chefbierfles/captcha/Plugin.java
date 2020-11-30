@@ -1,7 +1,7 @@
-package nl.chefbierfles.capatcha;
+package nl.chefbierfles.captcha;
 
-import nl.chefbierfles.capatcha.events.*;
-import nl.chefbierfles.capatcha.module.DatabaseModule;
+import nl.chefbierfles.captcha.events.*;
+import nl.chefbierfles.captcha.module.DatabaseModule;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Plugin extends JavaPlugin {

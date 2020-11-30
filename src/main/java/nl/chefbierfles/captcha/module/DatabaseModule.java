@@ -1,8 +1,8 @@
-package nl.chefbierfles.capatcha.module;
+package nl.chefbierfles.captcha.module;
 
 import com.mongodb.*;
-import nl.chefbierfles.capatcha.Plugin;
-import nl.chefbierfles.capatcha.models.constants.DatabaseFields;
+import nl.chefbierfles.captcha.Plugin;
+import nl.chefbierfles.captcha.models.constants.DatabaseFields;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 

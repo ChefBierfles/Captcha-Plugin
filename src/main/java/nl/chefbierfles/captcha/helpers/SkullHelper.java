@@ -1,4 +1,4 @@
-package nl.chefbierfles.capatcha.helpers;
+package nl.chefbierfles.captcha.helpers;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;

@@ -1,8 +1,8 @@
-package nl.chefbierfles.capatcha.models.menus;
+package nl.chefbierfles.captcha.models.menus;
 
-import nl.chefbierfles.capatcha.helpers.SkullHelper;
-import nl.chefbierfles.capatcha.models.CapatchaItem;
-import nl.chefbierfles.capatcha.models.constants.PlayerHeads;
+import nl.chefbierfles.captcha.helpers.SkullHelper;
+import nl.chefbierfles.captcha.models.CapatchaItem;
+import nl.chefbierfles.captcha.models.constants.PlayerHeads;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -14,7 +14,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.*;
 
-public class CapatchaInventory {
+public class CapatchaMenu {
 
     private Inventory inventory;
     private CapatchaItem correctItem;
@@ -42,7 +42,7 @@ public class CapatchaInventory {
             new CapatchaItem(SkullHelper.itemWithBase64(PlayerHeads.COLOR_ORANGE.toString()), "oranje")
     };
 
-    public CapatchaInventory() {
+    public CapatchaMenu() {
 
         initMenu();
     }

@@ -1,9 +1,9 @@
-package nl.chefbierfles.capatcha.module;
+package nl.chefbierfles.captcha.module;
 
-import nl.chefbierfles.capatcha.Plugin;
-import nl.chefbierfles.capatcha.models.constants.Permissions;
-import nl.chefbierfles.capatcha.models.menus.CapatchaInventory;
-import nl.chefbierfles.capatcha.module.base.BaseModule;
+import nl.chefbierfles.captcha.Plugin;
+import nl.chefbierfles.captcha.models.constants.Permissions;
+import nl.chefbierfles.captcha.models.menus.CapatchaMenu;
+import nl.chefbierfles.captcha.module.base.BaseModule;
 import org.apache.commons.lang3.time.DateUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -15,7 +15,7 @@ import java.util.*;
 
 public class CapatchaModule extends BaseModule {
 
-    private static HashMap<UUID, CapatchaInventory> openCapatchaMenus = new HashMap<>();
+    private static HashMap<UUID, CapatchaMenu> openCapatchaMenus = new HashMap<>();
 
     /*
     Open inventory
@@ -24,11 +24,11 @@ public class CapatchaModule extends BaseModule {
         Bukkit.getScheduler().runTaskAsynchronously(Plugin.getInstance(), new Runnable() {
             @Override
             public void run() {
-                CapatchaInventory capatchaInventory = getCapatchaMenu(player.getUniqueId());
+                CapatchaMenu capatchaMenu = getCapatchaMenu(player.getUniqueId());
                 Bukkit.getScheduler().runTask(Plugin.getInstance(), new Runnable() {
                     @Override
                     public void run() {
-                        player.openInventory(capatchaInventory.getInventory());
+                        player.openInventory(capatchaMenu.getInventory());
                     }
                 });
             }
@@ -76,30 +76,30 @@ public class CapatchaModule extends BaseModule {
 
         if (!hasCapatcha(event.getWhoClicked().getUniqueId())) return false;
 
-        CapatchaInventory capatchaInventory = getCapatchaMenu(event.getWhoClicked().getUniqueId());
+        CapatchaMenu capatchaMenu = getCapatchaMenu(event.getWhoClicked().getUniqueId());
 
         //Check inventory is a capatcha Inventory
-        if (!event.getClickedInventory().getTitle().equals(capatchaInventory.getInventory().getTitle())) return false;
+        if (!event.getClickedInventory().getTitle().equals(capatchaMenu.getInventory().getTitle())) return false;
 
         ItemStack clickedItem = event.getCurrentItem();
 
         //Check if capatchaItem is clicked
-        if (clickedItem.getItemMeta().getDisplayName() == capatchaInventory.getInvalidItem().getItemMeta().getDisplayName()) {
+        if (clickedItem.getItemMeta().getDisplayName() == capatchaMenu.getInvalidItem().getItemMeta().getDisplayName()) {
 
             //Check of maximaal bereikt is
-            if (capatchaInventory.getMistakesMade() == capatchaInventory.getMaxMistakes()) {
+            if (capatchaMenu.getMistakesMade() == capatchaMenu.getMaxMistakes()) {
                 ((Player) event.getWhoClicked()).kickPlayer(ChatColor.RED + "Te veel ongeldige pogingen!");
                 removeCapatcha(event.getWhoClicked().getUniqueId());
                 return true;
             }
 
-            capatchaInventory.addMistake();
-            updateCapatchaMenu((Player) event.getWhoClicked(), capatchaInventory);
+            capatchaMenu.addMistake();
+            updateCapatchaMenu((Player) event.getWhoClicked(), capatchaMenu);
         }
 
-        if (clickedItem.getItemMeta().getDisplayName() == capatchaInventory.getCorrectItem().getItemMeta().getDisplayName()) {
+        if (clickedItem.getItemMeta().getDisplayName() == capatchaMenu.getCorrectItem().getItemMeta().getDisplayName()) {
 
-            if (capatchaInventory.replaceCorrectItem(event.getSlot(), (Player) event.getWhoClicked()) == 0) {
+            if (capatchaMenu.replaceCorrectItem(event.getSlot(), (Player) event.getWhoClicked()) == 0) {
                 //Capatcha is done
                 finishCapatcha(event.getWhoClicked().getUniqueId());
 
@@ -121,12 +121,12 @@ public class CapatchaModule extends BaseModule {
         //Check if player still needs to do capatcha
         if (!hasCapatcha(player.getUniqueId())) return false;
 
-        CapatchaInventory capatchaInventory = getCapatchaMenu(player.getUniqueId());
+        CapatchaMenu capatchaMenu = getCapatchaMenu(player.getUniqueId());
 
         //Check if menu is open
-        if (!player.getOpenInventory().equals(capatchaInventory)) {
+        if (!player.getOpenInventory().equals(capatchaMenu)) {
             //Re-open menu
-            if (capatchaInventory.getInventoryClosed() > capatchaInventory.getMaxInventoryClosed()) {
+            if (capatchaMenu.getInventoryClosed() > capatchaMenu.getMaxInventoryClosed()) {
                 Bukkit.getScheduler().runTask(Plugin.getInstance(), new Runnable() {
                     @Override
                     public void run() {
@@ -135,7 +135,7 @@ public class CapatchaModule extends BaseModule {
                 });
                 return true;
             }
-            capatchaInventory.addInventoryClosed();
+            capatchaMenu.addInventoryClosed();
             openCapatchaMenu(player);
         }
 
@@ -152,16 +152,16 @@ public class CapatchaModule extends BaseModule {
         //Check if player still needs to do capatcha
         if (!hasCapatcha(player.getUniqueId())) return false;
 
-        CapatchaInventory capatchaInventory = getCapatchaMenu(player.getUniqueId());
+        CapatchaMenu capatchaMenu = getCapatchaMenu(player.getUniqueId());
 
         //Check if menu is open
-        if (!player.getOpenInventory().equals(capatchaInventory)) {
+        if (!player.getOpenInventory().equals(capatchaMenu)) {
             //Re-open menu
-            if (capatchaInventory.getInventoryClosed() > capatchaInventory.getMaxInventoryClosed()) {
+            if (capatchaMenu.getInventoryClosed() > capatchaMenu.getMaxInventoryClosed()) {
                 player.kickPlayer(ChatColor.RED + "Te veel ongeldige pogingen!");
                 return true;
             }
-            capatchaInventory.addInventoryClosed();
+            capatchaMenu.addInventoryClosed();
             openCapatchaMenu(player);
         }
 
@@ -178,16 +178,16 @@ public class CapatchaModule extends BaseModule {
         //Check if player still needs to do capatcha
         if (!hasCapatcha(player.getUniqueId())) return false;
 
-        CapatchaInventory capatchaInventory = getCapatchaMenu(player.getUniqueId());
+        CapatchaMenu capatchaMenu = getCapatchaMenu(player.getUniqueId());
 
         //Check if menu is open
-        if (!player.getOpenInventory().equals(capatchaInventory)) {
+        if (!player.getOpenInventory().equals(capatchaMenu)) {
             //Re-open menu
-            if (capatchaInventory.getInventoryClosed() > capatchaInventory.getMaxInventoryClosed()) {
+            if (capatchaMenu.getInventoryClosed() > capatchaMenu.getMaxInventoryClosed()) {
                 player.kickPlayer(ChatColor.RED + "Te veel ongeldige pogingen!");
                 return true;
             }
-            capatchaInventory.addInventoryClosed();
+            capatchaMenu.addInventoryClosed();
             openCapatchaMenu(player);
         }
 
@@ -197,23 +197,23 @@ public class CapatchaModule extends BaseModule {
     /*
     Get menu reference for player
      */
-    private static CapatchaInventory getCapatchaMenu(UUID uuid) {
+    private static CapatchaMenu getCapatchaMenu(UUID uuid) {
         if (openCapatchaMenus.containsKey(uuid)) {
             //Update current inventory
             return openCapatchaMenus.get(uuid);
         } else {
-            CapatchaInventory capatchaInventory = new CapatchaInventory();
-            openCapatchaMenus.put(uuid, capatchaInventory);
-            return capatchaInventory;
+            CapatchaMenu capatchaMenu = new CapatchaMenu();
+            openCapatchaMenus.put(uuid, capatchaMenu);
+            return capatchaMenu;
         }
     }
 
     /*
     Update menu contents
      */
-    private static void updateCapatchaMenu(Player player, CapatchaInventory capatchaInventory) {
-        capatchaInventory.updateMenu(player);
-        openCapatchaMenus.put(player.getUniqueId(), capatchaInventory);
+    private static void updateCapatchaMenu(Player player, CapatchaMenu capatchaMenu) {
+        capatchaMenu.updateMenu(player);
+        openCapatchaMenus.put(player.getUniqueId(), capatchaMenu);
     }
 
     /*

@@ -1,4 +1,4 @@
-package nl.chefbierfles.capatcha.models;
+package nl.chefbierfles.captcha.models;
 
 import org.bukkit.inventory.ItemStack;
 

@@ -1,4 +1,4 @@
-package nl.chefbierfles.capatcha.models.constants;
+package nl.chefbierfles.captcha.models.constants;
 
 public class DatabaseFields {
 
