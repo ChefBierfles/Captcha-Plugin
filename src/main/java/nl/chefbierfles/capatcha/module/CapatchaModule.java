@@ -10,6 +10,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
 import java.time.Instant;
@@ -129,7 +130,7 @@ public class CapatchaModule extends BaseModule {
         CapatchaInventory capatchaInventory = getCapatchaMenu(player.getUniqueId());
 
         //Check if menu is open
-        if (!player.getOpenInventory().equals(capatchaInventory)) {
+        if (player.getOpenInventory().equals(capatchaInventory.getInventory())) {
             //Re-open menu
             if (capatchaInventory.getInventoryClosed() > capatchaInventory.getMaxInventoryClosed()) {
                 Bukkit.getScheduler().runTask(Plugin.getInstance(), new Runnable() {
