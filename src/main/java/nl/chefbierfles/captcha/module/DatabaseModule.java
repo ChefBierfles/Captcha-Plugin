@@ -18,6 +18,15 @@ public final class DatabaseModule extends BaseModule {
     private MongoClient client;
 
     public DatabaseModule() {
+
+        if (!connect(
+                "admin",
+                "O5oHINE77BvE",
+                "cluster0.zfbz8.mongodb.net", "Capatcha")) {
+            //Don't launch plugin if database connection doesnt succeeed
+            JavaPlugin.getPlugin(Plugin.class).onDisable();
+        }
+
         name = this.getClass().getName();
     }
 

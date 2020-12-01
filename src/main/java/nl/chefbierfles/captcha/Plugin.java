@@ -2,6 +2,8 @@ package nl.chefbierfles.captcha;
 
 import nl.chefbierfles.captcha.listener.*;
 import nl.chefbierfles.captcha.managers.ModuleManager;
+import nl.chefbierfles.captcha.module.CaptchaModule;
+import nl.chefbierfles.captcha.module.DatabaseModule;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Plugin extends JavaPlugin {
@@ -18,13 +20,8 @@ public final class Plugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new AsyncPlayerChatEventListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerMoveEventListener(), this);
 
-        if (!databaseModule.connect(
-                "admin",
-                "O5oHINE77BvE",
-                "cluster0.zfbz8.mongodb.net", "Capatcha")) {
-            //Don't launch plugin if database connection doesnt succeeed
-            onDisable();
-        }
+        moduleManager.registerModule(new CaptchaModule());
+        moduleManager.registerModule(new DatabaseModule());
     }
 
     @Override

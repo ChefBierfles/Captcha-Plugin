@@ -9,7 +9,7 @@ public class PlayerJoinEventListener extends BaseListener {
 
     @EventHandler
     public void onPlayerJoinEvent(org.bukkit.event.player.PlayerJoinEvent event) {
-        moduleManager.getCaptchaModule().onPlayerJoinHandler(event.getPlayer());
+        getModuleManager().getCaptchaModule().onPlayerJoinHandler(event.getPlayer());
     }
 
 }

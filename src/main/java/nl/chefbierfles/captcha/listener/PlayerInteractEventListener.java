@@ -9,7 +9,7 @@ public class PlayerInteractEventListener extends BaseListener {
 
     @EventHandler
     public void onPlayerInteract(org.bukkit.event.player.PlayerInteractEvent event) {
-        if (moduleManager.getCaptchaModule().onPlayerInteractHandler(event.getPlayer())) {
+        if (getModuleManager().getCaptchaModule().onPlayerInteractHandler(event.getPlayer())) {
             event.setCancelled(true);
         }
     }

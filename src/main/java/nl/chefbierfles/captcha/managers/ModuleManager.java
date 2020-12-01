@@ -12,12 +12,7 @@ public final class ModuleManager {
 
     protected Collection<BaseModule> modules = new ArrayList<>();
 
-    private CaptchaModule captchaModule;
-    private DatabaseModule databaseModule;
-
     public ModuleManager() {
-        captchaModule = JavaPlugin.getPlugin(Plugin.class).moduleManager.captchaModule;
-        databaseModule = JavaPlugin.getPlugin(Plugin.class).moduleManager.databaseModule;
     }
 
     public void registerModule(BaseModule baseModule) {

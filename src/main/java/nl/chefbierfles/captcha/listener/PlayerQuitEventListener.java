@@ -9,6 +9,6 @@ public class PlayerQuitEventListener extends BaseListener {
 
     @EventHandler
     public void onPlayerQuit(org.bukkit.event.player.PlayerQuitEvent event) {
-        moduleManager.getCaptchaModule().onPlayerQuitHandler(event.getPlayer());
+        getModuleManager().getCaptchaModule().onPlayerQuitHandler(event.getPlayer());
     }
 }

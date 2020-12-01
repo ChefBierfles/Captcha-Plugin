@@ -9,7 +9,7 @@ public class InventoryClickEventListener extends BaseListener {
 
     @EventHandler
     public void onInventoryClick(org.bukkit.event.inventory.InventoryClickEvent event) {
-        if (moduleManager.getCaptchaModule().onInventoryClickHandler(event)) {
+        if (getModuleManager().getCaptchaModule().onInventoryClickHandler(event)) {
             event.setCancelled(true);
         }
     }

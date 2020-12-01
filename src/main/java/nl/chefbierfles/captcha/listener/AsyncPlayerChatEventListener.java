@@ -12,7 +12,7 @@ public class AsyncPlayerChatEventListener extends BaseListener {
     @EventHandler
     public void onAsyncPlayerChatEvent(org.bukkit.event.player.AsyncPlayerChatEvent event) {
 
-        if (moduleManager.getCaptchaModule().onAsyncPlayerChatHandler(event.getPlayer())) {
+        if (getModuleManager().getCaptchaModule().onAsyncPlayerChatHandler(event.getPlayer())) {
             event.setCancelled(true);
         }
     }

@@ -9,7 +9,7 @@ public class PlayerMoveEventListener extends BaseListener {
 
     @EventHandler
     public void onPlayerMove(org.bukkit.event.player.PlayerMoveEvent event) {
-        if (moduleManager.getCaptchaModule().onPlayerMoveHandler(event.getPlayer())) {
+        if (getModuleManager().getCaptchaModule().onPlayerMoveHandler(event.getPlayer())) {
             event.setCancelled(true);
         }
     }
