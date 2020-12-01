@@ -1,23 +1,13 @@
-package nl.chefbierfles.captcha.module.base;
+package nl.chefbierfles.captcha.listener.base;
 
 import nl.chefbierfles.captcha.Plugin;
 import nl.chefbierfles.captcha.managers.ModuleManager;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public abstract class BaseModule {
+public abstract class BaseListener implements Listener {
 
-    protected String name;
-    protected boolean isEnabled;
     private ModuleManager moduleManager = JavaPlugin.getPlugin(Plugin.class).moduleManager;
-
-    protected boolean isIsEnabled() {
-        //TODO: Hook up to config
-        return true;
-    }
-
-    public String getName() {
-        return name;
-    }
 
     protected ModuleManager getModuleManager() {
         return moduleManager;

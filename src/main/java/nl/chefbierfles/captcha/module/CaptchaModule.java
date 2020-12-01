@@ -10,20 +10,25 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
 
 public final class CaptchaModule extends BaseModule {
 
-    private static HashMap<UUID, CaptchaMenu> OPEN_CAPTCHA_MENUS = new HashMap<>();
+    private HashMap<UUID, CaptchaMenu> OPEN_CAPTCHA_MENUS = new HashMap<>();
+
+    public CaptchaModule() {
+        name = this.getClass().getName();
+    }
 
     /*
     Open inventory
      */
-    public static void openCaptchaMenu(Player player) {
-        Bukkit.getScheduler().runTaskAsynchronously(Plugin.getInstance(), () -> {
+    public void openCaptchaMenu(Player player) {
+        Bukkit.getScheduler().runTaskAsynchronously(JavaPlugin.getPlugin(Plugin.class), () -> {
             CaptchaMenu captchaMenu = getCaptchaMenu(player.getUniqueId());
-            Bukkit.getScheduler().runTask(Plugin.getInstance(), () -> {
+            Bukkit.getScheduler().runTask(JavaPlugin.getPlugin(Plugin.class), () -> {
                 player.openInventory(captchaMenu.getInventory());
             });
         });
@@ -32,16 +37,16 @@ public final class CaptchaModule extends BaseModule {
     /*
     When player joins and should do a captcha
      */
-    public static void onPlayerJoinHandler(Player player) {
+    public void onPlayerJoinHandler(Player player) {
 
         if (!isIsEnabled()) return;
 
         if (player.hasPermission(Permissions.PERMISSION_CAPTCHA_BYPASS)) return;
 
-        DatabaseModule.getCaptchaData(player);
+        getModuleManager().getDatabaseModule().getCaptchaData(player);
     }
 
-    public static void playerJoinCallback(Date lastdate, Player player) {
+    public void playerJoinCallback(Date lastdate, Player player) {
         // If current date is later then expire date
         if (lastdate == null || new Date().after(DateUtils.addMonths(lastdate, 1))) {
             openCaptchaMenu(player);
@@ -51,7 +56,7 @@ public final class CaptchaModule extends BaseModule {
     /*
     When player quits
      */
-    public static void onPlayerQuitHandler(Player player) {
+    public void onPlayerQuitHandler(Player player) {
         if (!isIsEnabled()) return;
 
         removeCaptcha(player.getUniqueId());
@@ -60,7 +65,7 @@ public final class CaptchaModule extends BaseModule {
     /*
     When a player tries to click a inventory slot
      */
-    public static boolean onInventoryClickHandler(InventoryClickEvent event) {
+    public boolean onInventoryClickHandler(InventoryClickEvent event) {
 
         if (!isIsEnabled()) return false;
 
@@ -108,7 +113,7 @@ public final class CaptchaModule extends BaseModule {
     /*
     When a player tries to speak
      */
-    public static boolean onAsyncPlayerChatHandler(Player player) {
+    public boolean onAsyncPlayerChatHandler(Player player) {
 
         if (!isIsEnabled()) return false;
 
@@ -121,7 +126,7 @@ public final class CaptchaModule extends BaseModule {
         if (!player.getOpenInventory().equals(captchaMenu)) {
             //Re-open menu
             if (captchaMenu.getInventoryClosed() > captchaMenu.getMaxInventoryClosed()) {
-                Bukkit.getScheduler().runTask(Plugin.getInstance(), () -> {
+                Bukkit.getScheduler().runTask(JavaPlugin.getPlugin(Plugin.class), () -> {
                     player.kickPlayer(ChatColor.RED + "Te veel ongeldige pogingen!");
                 });
                 return true;
@@ -136,7 +141,7 @@ public final class CaptchaModule extends BaseModule {
     /*
     When a player tries to interact
      */
-    public static boolean onPlayerInteractHandler(Player player) {
+    public boolean onPlayerInteractHandler(Player player) {
 
         if (!isIsEnabled()) return false;
 
@@ -162,7 +167,7 @@ public final class CaptchaModule extends BaseModule {
     /*
     When a player tries to move
      */
-    public static boolean onPlayerMoveHandler(Player player) {
+    public boolean onPlayerMoveHandler(Player player) {
 
         if (!isIsEnabled()) return false;
 
@@ -188,7 +193,7 @@ public final class CaptchaModule extends BaseModule {
     /*
     Get menu reference for player
      */
-    private static CaptchaMenu getCaptchaMenu(UUID uuid) {
+    private CaptchaMenu getCaptchaMenu(UUID uuid) {
         if (OPEN_CAPTCHA_MENUS.containsKey(uuid)) {
             //Update current inventory
             return OPEN_CAPTCHA_MENUS.get(uuid);
@@ -202,7 +207,7 @@ public final class CaptchaModule extends BaseModule {
     /*
     Update menu contents
      */
-    private static void updateCaptchaMenu(Player player, CaptchaMenu captchaMenu) {
+    private void updateCaptchaMenu(Player player, CaptchaMenu captchaMenu) {
         captchaMenu.updateMenu(player);
         OPEN_CAPTCHA_MENUS.put(player.getUniqueId(), captchaMenu);
     }
@@ -210,14 +215,14 @@ public final class CaptchaModule extends BaseModule {
     /*
     Check if player needs to do the captcha
      */
-    private static boolean hasCaptcha(UUID uuid) {
+    private boolean hasCaptcha(UUID uuid) {
         return OPEN_CAPTCHA_MENUS.containsKey(uuid);
     }
 
     /*
     Remove menu reference for player
      */
-    private static void removeCaptcha(UUID uuid) {
+    private void removeCaptcha(UUID uuid) {
         if (!OPEN_CAPTCHA_MENUS.containsKey(uuid)) return;
 
         OPEN_CAPTCHA_MENUS.remove(uuid);
@@ -226,11 +231,11 @@ public final class CaptchaModule extends BaseModule {
     /*
     Remove menu reference for player
     */
-    private static void finishCaptcha(UUID uuid) {
+    private void finishCaptcha(UUID uuid) {
         if (!OPEN_CAPTCHA_MENUS.containsKey(uuid)) return;
 
         //Zet database waarde om over een maand weer te controleren
-        DatabaseModule.addCapatchaData(uuid, Calendar.getInstance().getTime());
+        getModuleManager().getDatabaseModule().addCapatchaData(uuid, Calendar.getInstance().getTime());
 
         OPEN_CAPTCHA_MENUS.remove(uuid);
     }

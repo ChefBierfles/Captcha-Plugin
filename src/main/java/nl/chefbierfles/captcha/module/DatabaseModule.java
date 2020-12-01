@@ -6,17 +6,22 @@ import nl.chefbierfles.captcha.models.constants.DatabaseFields;
 import nl.chefbierfles.captcha.module.base.BaseModule;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Date;
 import java.util.UUID;
 
 public final class DatabaseModule extends BaseModule {
 
-    private static DBCollection players;
-    private static DB playersDb;
-    private static MongoClient client;
+    private DBCollection players;
+    private DB playersDb;
+    private MongoClient client;
 
-    public static boolean connect(String authUser, String encodedPwd, String hostName, String dbName) {
+    public DatabaseModule() {
+        name = this.getClass().getName();
+    }
+
+    public boolean connect(String authUser, String encodedPwd, String hostName, String dbName) {
         // Mongodb connection string.
 
         String client_url = "mongodb+srv://" + authUser + ":" + encodedPwd + "@" + hostName + "/" + dbName + "?retryWrites=true&w=majority";
@@ -29,7 +34,7 @@ public final class DatabaseModule extends BaseModule {
         return true;
     }
 
-    public static void addCapatchaData(UUID uuid, Date date) {
+    public void addCapatchaData(UUID uuid, Date date) {
         DBObject dbObject = new BasicDBObject("uuid", uuid);
         DBObject result = getResults(dbObject);
 
@@ -39,11 +44,11 @@ public final class DatabaseModule extends BaseModule {
             return;
         }
 
-        dbObject.put(DatabaseFields.CAPATCHA_LASTDONE_DATE.toString(), date);
+        dbObject.put(DatabaseFields.CAPATCHA_LASTDONE_DATE, date);
         players.insert(dbObject);
     }
 
-    public static void updateCapatchaData(UUID uuid, Date date) {
+    public void updateCapatchaData(UUID uuid, Date date) {
         DBObject dbObject = new BasicDBObject("uuid", uuid);
 
         DBObject found = players.findOne(dbObject);
@@ -53,24 +58,24 @@ public final class DatabaseModule extends BaseModule {
         }
 
         DBObject obj = new BasicDBObject("uuid", uuid);
-        obj.put(DatabaseFields.CAPATCHA_LASTDONE_DATE.toString(), date);
+        obj.put(DatabaseFields.CAPATCHA_LASTDONE_DATE, date);
 
         players.update(found, obj);
     }
 
-    public static void getCaptchaData(Player player) {
-        Bukkit.getScheduler().runTaskAsynchronously(Plugin.getInstance(), () -> {
+    public void getCaptchaData(Player player) {
+        Bukkit.getScheduler().runTaskAsynchronously(JavaPlugin.getProvidingPlugin(Plugin.class), () -> {
             DBObject dbObject = new BasicDBObject("uuid", player.getUniqueId());
 
             DBObject result = getResults(dbObject);
 
-            Date date = (result == null) ? null : (Date) result.get(DatabaseFields.CAPATCHA_LASTDONE_DATE.toString());
+            Date date = (result == null) ? null : (Date) result.get(DatabaseFields.CAPATCHA_LASTDONE_DATE);
 
-            Bukkit.getScheduler().runTask(Plugin.getInstance(), () -> CaptchaModule.playerJoinCallback(date, player));
+            Bukkit.getScheduler().runTask(JavaPlugin.getProvidingPlugin(Plugin.class), () -> getModuleManager().getCaptchaModule().playerJoinCallback(date, player));
         });
     }
 
-    private static DBObject getResults(DBObject dbObject) {
+    private DBObject getResults(DBObject dbObject) {
         DBObject resultFound = null;
 
         try (DBCursor cursor = players.find(dbObject)) {
