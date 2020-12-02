@@ -39,7 +39,7 @@ public final class CaptchaModule extends BaseModule {
      */
     public void onPlayerJoinHandler(Player player) {
 
-        if (!isIsEnabled()) return;
+        if (!isEnabled()) return;
 
         if (player.hasPermission(Permissions.PERMISSION_CAPTCHA_BYPASS)) return;
 
@@ -57,7 +57,7 @@ public final class CaptchaModule extends BaseModule {
     When player quits
      */
     public void onPlayerQuitHandler(Player player) {
-        if (!isIsEnabled()) return;
+        if (!isEnabled()) return;
 
         removeCaptcha(player.getUniqueId());
     }
@@ -67,7 +67,7 @@ public final class CaptchaModule extends BaseModule {
      */
     public boolean onInventoryClickHandler(InventoryClickEvent event) {
 
-        if (!isIsEnabled()) return false;
+        if (!isEnabled()) return false;
 
         if (!(event.getWhoClicked() instanceof Player)) return false;
 
@@ -115,7 +115,7 @@ public final class CaptchaModule extends BaseModule {
      */
     public boolean onAsyncPlayerChatHandler(Player player) {
 
-        if (!isIsEnabled()) return false;
+        if (!isEnabled()) return false;
 
         //Check if player still needs to do captcha
         if (!hasCaptcha(player.getUniqueId())) return false;
@@ -143,7 +143,7 @@ public final class CaptchaModule extends BaseModule {
      */
     public boolean onPlayerInteractHandler(Player player) {
 
-        if (!isIsEnabled()) return false;
+        if (!isEnabled()) return false;
 
         //Check if player still needs to do captcha
         if (!hasCaptcha(player.getUniqueId())) return false;
@@ -169,7 +169,7 @@ public final class CaptchaModule extends BaseModule {
      */
     public boolean onPlayerMoveHandler(Player player) {
 
-        if (!isIsEnabled()) return false;
+        if (!isEnabled()) return false;
 
         //Check if player still needs to do captcha
         if (!hasCaptcha(player.getUniqueId())) return false;
