@@ -10,9 +10,17 @@ public abstract class BaseModule {
     protected boolean isEnabled;
     private ModuleManager moduleManager = JavaPlugin.getPlugin(Plugin.class).moduleManager;
 
-    protected boolean isIsEnabled() {
+    protected boolean isEnabled() {
         //TODO: Hook up to config
-        return true;
+        return isEnabled;
+    }
+
+    protected void toggleEnabled() {
+        isEnabled = !isEnabled;
+    }
+
+    protected void toggleEnabled(boolean value) {
+        isEnabled = value;
     }
 
     public String getName() {
