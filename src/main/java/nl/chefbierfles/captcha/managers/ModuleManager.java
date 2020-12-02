@@ -18,6 +18,10 @@ public final class ModuleManager {
     public void registerModule(BaseModule baseModule) {
         modules.add(baseModule);
     }
+    
+    public BaseModule getModule(String moduleName) {
+        return modules.stream().filter(module -> module.getName() == moduleName).findFirst().get();
+    }
 
     public CaptchaModule getCaptchaModule() {
         return (CaptchaModule) modules.stream().filter(module -> module.getName() == CaptchaModule.class.getName()).findFirst().get();
