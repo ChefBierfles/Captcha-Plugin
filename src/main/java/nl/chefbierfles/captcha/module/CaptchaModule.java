@@ -28,11 +28,9 @@ public final class CaptchaModule extends BaseModule {
     Open inventory
      */
     public void openCaptchaMenu(Player player) {
-        Bukkit.getScheduler().runTaskAsynchronously(JavaPlugin.getPlugin(Plugin.class), () -> {
+        Bukkit.getScheduler().runTask(JavaPlugin.getPlugin(Plugin.class), () -> {
             CaptchaMenu captchaMenu = getCaptchaMenu(player.getUniqueId());
-            Bukkit.getScheduler().runTask(JavaPlugin.getPlugin(Plugin.class), () -> {
-                player.openInventory(captchaMenu.getInventory());
-            });
+            player.openInventory(captchaMenu.getInventory());
         });
     }
 
@@ -45,14 +43,11 @@ public final class CaptchaModule extends BaseModule {
 
         if (player.hasPermission(Permissions.PERMISSION_CAPTCHA_BYPASS)) return;
 
-        CompletableFuture.supplyAsync(() -> getModuleManager().getDatabaseModule().getCaptchaData(player)
-        ).thenAccept(lastDoneDate -> {
-            System.out.println(lastDoneDate);
-            // If current date is later then expire date
-            if (lastDoneDate == null || new Date().after(DateUtils.addMonths(lastDoneDate, 1))) {
-                openCaptchaMenu(player);
-            }
-        });
+        Date lastDoneDate = getModuleManager().getDatabaseModule().getCaptchaData(player);
+
+        if (lastDoneDate == null || new Date().after(DateUtils.addMonths(lastDoneDate, 1))) {
+            openCaptchaMenu(player);
+        }
     }
 
     /*

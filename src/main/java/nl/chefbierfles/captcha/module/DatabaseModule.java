@@ -10,6 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Date;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 public final class DatabaseModule extends BaseModule {
 
@@ -75,11 +76,21 @@ public final class DatabaseModule extends BaseModule {
 
     public Date getCaptchaData(Player player) {
 
-        DBObject dbObject = new BasicDBObject("uuid", player.getUniqueId());
+        CompletableFuture<Date> completableFuture = CompletableFuture.supplyAsync(() -> {
+            DBObject dbObject = new BasicDBObject("uuid", player.getUniqueId());
 
-        DBObject result = getResults(dbObject);
+            DBObject result = getResults(dbObject);
 
-        Date date = (result == null) ? null : (Date) result.get(DatabaseFields.CAPATCHA_LASTDONE_DATE);
+            return (result == null) ? null : (Date) result.get(DatabaseFields.CAPATCHA_LASTDONE_DATE);
+        });
+
+        Date date = null;
+
+        try {
+            date = completableFuture.get();
+        } catch (Exception exc) {
+            getCaptchaData(player);
+        }
 
         return date;
     }
