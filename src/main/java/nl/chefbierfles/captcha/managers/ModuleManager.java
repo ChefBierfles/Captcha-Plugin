@@ -10,7 +10,7 @@ import java.util.*;
 
 public final class ModuleManager {
 
-    protected Collection<BaseModule> modules = new ArrayList<>();
+    protected Set<BaseModule> modules = new HashSet<>();
 
     public ModuleManager() {
     }
@@ -18,7 +18,7 @@ public final class ModuleManager {
     public void registerModule(BaseModule baseModule) {
         modules.add(baseModule);
     }
-    
+
     public BaseModule getModule(String moduleName) {
         return modules.stream().filter(module -> module.getName() == moduleName).findFirst().get();
     }

@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 public final class CaptchaModule extends BaseModule {
 
@@ -20,6 +21,7 @@ public final class CaptchaModule extends BaseModule {
 
     public CaptchaModule() {
         name = this.getClass().getName();
+        isEnabled = true;
     }
 
     /*
@@ -43,14 +45,14 @@ public final class CaptchaModule extends BaseModule {
 
         if (player.hasPermission(Permissions.PERMISSION_CAPTCHA_BYPASS)) return;
 
-        getModuleManager().getDatabaseModule().getCaptchaData(player);
-    }
-
-    public void playerJoinCallback(Date lastdate, Player player) {
-        // If current date is later then expire date
-        if (lastdate == null || new Date().after(DateUtils.addMonths(lastdate, 1))) {
-            openCaptchaMenu(player);
-        }
+        CompletableFuture.supplyAsync(() -> getModuleManager().getDatabaseModule().getCaptchaData(player)
+        ).thenAccept(lastDoneDate -> {
+            System.out.println(lastDoneDate);
+            // If current date is later then expire date
+            if (lastDoneDate == null || new Date().after(DateUtils.addMonths(lastDoneDate, 1))) {
+                openCaptchaMenu(player);
+            }
+        });
     }
 
     /*

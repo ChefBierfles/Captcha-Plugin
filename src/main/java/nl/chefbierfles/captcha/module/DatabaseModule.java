@@ -19,6 +19,9 @@ public final class DatabaseModule extends BaseModule {
 
     public DatabaseModule() {
 
+        name = this.getClass().getName();
+        isEnabled = true;
+
         if (!connect(
                 "admin",
                 "O5oHINE77BvE",
@@ -26,8 +29,6 @@ public final class DatabaseModule extends BaseModule {
             //Don't launch plugin if database connection doesnt succeeed
             JavaPlugin.getPlugin(Plugin.class).onDisable();
         }
-
-        name = this.getClass().getName();
     }
 
     public boolean connect(String authUser, String encodedPwd, String hostName, String dbName) {
@@ -72,16 +73,15 @@ public final class DatabaseModule extends BaseModule {
         players.update(found, obj);
     }
 
-    public void getCaptchaData(Player player) {
-        Bukkit.getScheduler().runTaskAsynchronously(JavaPlugin.getProvidingPlugin(Plugin.class), () -> {
-            DBObject dbObject = new BasicDBObject("uuid", player.getUniqueId());
+    public Date getCaptchaData(Player player) {
 
-            DBObject result = getResults(dbObject);
+        DBObject dbObject = new BasicDBObject("uuid", player.getUniqueId());
 
-            Date date = (result == null) ? null : (Date) result.get(DatabaseFields.CAPATCHA_LASTDONE_DATE);
+        DBObject result = getResults(dbObject);
 
-            Bukkit.getScheduler().runTask(JavaPlugin.getProvidingPlugin(Plugin.class), () -> getModuleManager().getCaptchaModule().playerJoinCallback(date, player));
-        });
+        Date date = (result == null) ? null : (Date) result.get(DatabaseFields.CAPATCHA_LASTDONE_DATE);
+
+        return date;
     }
 
     private DBObject getResults(DBObject dbObject) {
