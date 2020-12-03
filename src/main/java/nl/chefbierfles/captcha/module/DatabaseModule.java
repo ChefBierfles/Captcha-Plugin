@@ -46,36 +46,39 @@ public final class DatabaseModule extends BaseModule {
     }
 
     public void addCapatchaData(UUID uuid, Date date) {
-        DBObject dbObject = new BasicDBObject("uuid", uuid);
-        DBObject result = getResults(dbObject);
+        CompletableFuture.runAsync(() -> {
+            DBObject dbObject = new BasicDBObject("uuid", uuid);
+            DBObject result = getResults(dbObject);
 
-        if (result != null) {
-            //Result already exists
-            updateCapatchaData(uuid, date);
-            return;
-        }
+            if (result != null) {
+                //Result already exists
+                updateCapatchaData(uuid, date);
+                return;
+            }
 
-        dbObject.put(DatabaseFields.CAPATCHA_LASTDONE_DATE, date);
-        players.insert(dbObject);
+            dbObject.put(DatabaseFields.CAPATCHA_LASTDONE_DATE, date);
+            players.insert(dbObject);
+        });
     }
 
     public void updateCapatchaData(UUID uuid, Date date) {
-        DBObject dbObject = new BasicDBObject("uuid", uuid);
+        CompletableFuture.runAsync(() -> {
+            DBObject dbObject = new BasicDBObject("uuid", uuid);
 
-        DBObject found = players.findOne(dbObject);
-        if (found == null) {
-            addCapatchaData(uuid, date);
-            return;
-        }
+            DBObject found = players.findOne(dbObject);
+            if (found == null) {
+                addCapatchaData(uuid, date);
+                return;
+            }
 
-        DBObject obj = new BasicDBObject("uuid", uuid);
-        obj.put(DatabaseFields.CAPATCHA_LASTDONE_DATE, date);
+            DBObject obj = new BasicDBObject("uuid", uuid);
+            obj.put(DatabaseFields.CAPATCHA_LASTDONE_DATE, date);
 
-        players.update(found, obj);
+            players.update(found, obj);
+        });
     }
 
     public Date getCaptchaData(Player player) {
-
         CompletableFuture<Date> completableFuture = CompletableFuture.supplyAsync(() -> {
             DBObject dbObject = new BasicDBObject("uuid", player.getUniqueId());
 
@@ -91,7 +94,6 @@ public final class DatabaseModule extends BaseModule {
         } catch (Exception exc) {
             getCaptchaData(player);
         }
-
         return date;
     }
 

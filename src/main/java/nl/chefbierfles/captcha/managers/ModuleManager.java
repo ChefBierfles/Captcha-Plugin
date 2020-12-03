@@ -10,7 +10,7 @@ import java.util.*;
 
 public final class ModuleManager {
 
-    protected Set<BaseModule> modules = new HashSet<>();
+    protected Collection<BaseModule> modules = new HashSet<>();
 
     public ModuleManager() {
     }

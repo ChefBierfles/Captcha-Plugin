@@ -75,7 +75,7 @@ public final class CaptchaModule extends BaseModule {
         CaptchaMenu captchaMenu = getCaptchaMenu(event.getWhoClicked().getUniqueId());
 
         //Check inventory is a captcha Inventory
-        if (!event.getClickedInventory().getTitle().equals(captchaMenu.getInventory().getTitle())) return false;
+        if (event.getClickedInventory().getTitle() != captchaMenu.getInventory().getTitle()) return false;
 
         ItemStack clickedItem = event.getCurrentItem();
 
@@ -83,7 +83,7 @@ public final class CaptchaModule extends BaseModule {
         if (clickedItem.getItemMeta().getDisplayName() == captchaMenu.getInvalidItem().getItemMeta().getDisplayName()) {
 
             //Check of maximaal bereikt is
-            if (captchaMenu.getMistakesMade() == captchaMenu.getMaxMistakes()) {
+            if (captchaMenu.getInventoryClosed() > captchaMenu.getMaxInventoryClosed()) {
                 ((Player) event.getWhoClicked()).kickPlayer(ChatColor.RED + "Te veel ongeldige pogingen!");
                 removeCaptcha(event.getWhoClicked().getUniqueId());
                 return true;
@@ -120,7 +120,7 @@ public final class CaptchaModule extends BaseModule {
         CaptchaMenu captchaMenu = getCaptchaMenu(player.getUniqueId());
 
         //Check if menu is open
-        if (!player.getOpenInventory().equals(captchaMenu)) {
+        if (player.getOpenInventory().getTitle() != captchaMenu.getInventory().getTitle()) {
             //Re-open menu
             if (captchaMenu.getInventoryClosed() > captchaMenu.getMaxInventoryClosed()) {
                 Bukkit.getScheduler().runTask(JavaPlugin.getPlugin(Plugin.class), () -> {
@@ -148,7 +148,7 @@ public final class CaptchaModule extends BaseModule {
         CaptchaMenu captchaMenu = getCaptchaMenu(player.getUniqueId());
 
         //Check if menu is open
-        if (!player.getOpenInventory().equals(captchaMenu)) {
+        if (player.getOpenInventory().getTitle() != captchaMenu.getInventory().getTitle()) {
             //Re-open menu
             if (captchaMenu.getInventoryClosed() > captchaMenu.getMaxInventoryClosed()) {
                 player.kickPlayer(ChatColor.RED + "Te veel ongeldige pogingen!");
@@ -174,7 +174,7 @@ public final class CaptchaModule extends BaseModule {
         CaptchaMenu captchaMenu = getCaptchaMenu(player.getUniqueId());
 
         //Check if menu is open
-        if (!player.getOpenInventory().equals(captchaMenu)) {
+        if (player.getOpenInventory().getTitle() != captchaMenu.getInventory().getTitle()) {
             //Re-open menu
             if (captchaMenu.getInventoryClosed() > captchaMenu.getMaxInventoryClosed()) {
                 player.kickPlayer(ChatColor.RED + "Te veel ongeldige pogingen!");
