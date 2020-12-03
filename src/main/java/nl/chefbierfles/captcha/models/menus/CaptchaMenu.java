@@ -23,7 +23,6 @@ public class CaptchaMenu {
     private ItemStack informationItem;
 
     private int mistakesMade = 0;
-    //TODO: Hookup to configfile
     private int maxMistakes = 3;
 
     private int inventoryClosed = 0;

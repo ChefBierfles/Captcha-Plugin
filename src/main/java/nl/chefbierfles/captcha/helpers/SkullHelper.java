@@ -11,7 +11,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.UUID;
 
-public class SkullHelper {
+public final class SkullHelper {
 
     private static Method metaSetProfileMethod;
     private static Field metaProfileField;
@@ -22,7 +22,7 @@ public class SkullHelper {
      * @param base64 The base64 string containing the texture.
      * @return The skull with a custom texture.
      */
-    public static ItemStack itemWithBase64(String base64) {
+    public final static ItemStack itemWithBase64(String base64) {
 
         ItemStack item = getPlayerSkull();
 
@@ -40,11 +40,11 @@ public class SkullHelper {
         return item;
     }
 
-    public static ItemStack getPlayerSkull() {
+    private final static ItemStack getPlayerSkull() {
         return new ItemStack(Material.SKULL_ITEM, 1, (short)3);
     }
 
-    private static void mutateItemMeta(SkullMeta meta, String b64) {
+    private final static void mutateItemMeta(SkullMeta meta, String b64) {
         try {
             if (metaSetProfileMethod == null) {
                 metaSetProfileMethod = meta.getClass().getDeclaredMethod("setProfile", GameProfile.class);
@@ -67,7 +67,7 @@ public class SkullHelper {
         }
     }
 
-    private static GameProfile makeProfile(String b64) {
+    private final static GameProfile makeProfile(String b64) {
         // random uuid based on the b64 string
         UUID id = new UUID(
                 b64.substring(b64.length() - 20).hashCode(),
@@ -78,7 +78,7 @@ public class SkullHelper {
         return profile;
     }
 
-    private static void notNull(Object o, String name) {
+    private final static void notNull(Object o, String name) {
         if (o == null) {
             throw new NullPointerException(name + " should not be null!");
         }

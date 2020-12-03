@@ -2,9 +2,7 @@ package nl.chefbierfles.captcha.models.constants;
 
 public class Permissions {
 
-    /*
-    Allow to bypass the capatcha
-     */
-    public static String PERMISSION_CAPTCHA_BYPASS = "capatcha.bypass";
-
+    //#region CAPTCHA PERMISSIONS
+    public final static String PERMISSION_CAPTCHA_BYPASS = "capatcha.bypass";
+    //endregion
 }

@@ -4,7 +4,6 @@ import com.mongodb.*;
 import nl.chefbierfles.captcha.Plugin;
 import nl.chefbierfles.captcha.models.constants.DatabaseFields;
 import nl.chefbierfles.captcha.module.base.BaseModule;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -90,7 +89,7 @@ public final class DatabaseModule extends BaseModule {
         Date date = null;
 
         try {
-            date = completableFuture.join();
+            date = completableFuture.get();
         } catch (Exception exc) {
             getCaptchaData(player);
         }

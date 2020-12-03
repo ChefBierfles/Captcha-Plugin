@@ -9,7 +9,7 @@ public class CaptchaOptions {
     /*
     Could be hooked up to a config
      */
-    private static CapatchaItem[] options = new CapatchaItem[]{
+    private final static CapatchaItem[] options = new CapatchaItem[]{
             new CapatchaItem(SkullHelper.itemWithBase64(PlayerHeads.COLOR_LIME), "groene"),
             new CapatchaItem(SkullHelper.itemWithBase64(PlayerHeads.COLOR_RED), "rode"),
             new CapatchaItem(SkullHelper.itemWithBase64(PlayerHeads.COLOR_ROYAL_BLUE), "blauwe"),
