@@ -90,7 +90,7 @@ public final class DatabaseModule extends BaseModule {
         Date date = null;
 
         try {
-            date = completableFuture.get();
+            date = completableFuture.join();
         } catch (Exception exc) {
             getCaptchaData(player);
         }

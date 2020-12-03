@@ -28,10 +28,8 @@ public final class CaptchaModule extends BaseModule {
     Open inventory
      */
     public void openCaptchaMenu(Player player) {
-        Bukkit.getScheduler().runTask(JavaPlugin.getPlugin(Plugin.class), () -> {
-            CaptchaMenu captchaMenu = getCaptchaMenu(player.getUniqueId());
-            player.openInventory(captchaMenu.getInventory());
-        });
+        CaptchaMenu captchaMenu = getCaptchaMenu(player.getUniqueId());
+        player.openInventory(captchaMenu.getInventory());
     }
 
     /*
@@ -43,11 +41,12 @@ public final class CaptchaModule extends BaseModule {
 
         if (player.hasPermission(Permissions.PERMISSION_CAPTCHA_BYPASS)) return;
 
-        Date lastDoneDate = getModuleManager().getDatabaseModule().getCaptchaData(player);
-
-        if (lastDoneDate == null || new Date().after(DateUtils.addMonths(lastDoneDate, 1))) {
-            openCaptchaMenu(player);
-        }
+        CompletableFuture.supplyAsync(() -> getModuleManager().getDatabaseModule().getCaptchaData(player))
+                .thenAccept(lastDoneDate -> {
+                    if (lastDoneDate == null || new Date().after(DateUtils.addMonths(lastDoneDate, 1))) {
+                        openCaptchaMenu(player);
+                    }
+                });
     }
 
     /*
@@ -83,7 +82,7 @@ public final class CaptchaModule extends BaseModule {
         if (clickedItem.getItemMeta().getDisplayName() == captchaMenu.getInvalidItem().getItemMeta().getDisplayName()) {
 
             //Check of maximaal bereikt is
-            if (captchaMenu.getInventoryClosed() > captchaMenu.getMaxInventoryClosed()) {
+            if (captchaMenu.getMistakesMade() >= captchaMenu.getMaxMistakes()) {
                 ((Player) event.getWhoClicked()).kickPlayer(ChatColor.RED + "Te veel ongeldige pogingen!");
                 removeCaptcha(event.getWhoClicked().getUniqueId());
                 return true;
@@ -122,7 +121,7 @@ public final class CaptchaModule extends BaseModule {
         //Check if menu is open
         if (player.getOpenInventory().getTitle() != captchaMenu.getInventory().getTitle()) {
             //Re-open menu
-            if (captchaMenu.getInventoryClosed() > captchaMenu.getMaxInventoryClosed()) {
+            if (captchaMenu.getInventoryClosed() >= captchaMenu.getMaxInventoryClosed()) {
                 Bukkit.getScheduler().runTask(JavaPlugin.getPlugin(Plugin.class), () -> {
                     player.kickPlayer(ChatColor.RED + "Te veel ongeldige pogingen!");
                 });
@@ -150,7 +149,7 @@ public final class CaptchaModule extends BaseModule {
         //Check if menu is open
         if (player.getOpenInventory().getTitle() != captchaMenu.getInventory().getTitle()) {
             //Re-open menu
-            if (captchaMenu.getInventoryClosed() > captchaMenu.getMaxInventoryClosed()) {
+            if (captchaMenu.getInventoryClosed() >= captchaMenu.getMaxInventoryClosed()) {
                 player.kickPlayer(ChatColor.RED + "Te veel ongeldige pogingen!");
                 return true;
             }
@@ -176,7 +175,7 @@ public final class CaptchaModule extends BaseModule {
         //Check if menu is open
         if (player.getOpenInventory().getTitle() != captchaMenu.getInventory().getTitle()) {
             //Re-open menu
-            if (captchaMenu.getInventoryClosed() > captchaMenu.getMaxInventoryClosed()) {
+            if (captchaMenu.getInventoryClosed() >= captchaMenu.getMaxInventoryClosed()) {
                 player.kickPlayer(ChatColor.RED + "Te veel ongeldige pogingen!");
                 return true;
             }
