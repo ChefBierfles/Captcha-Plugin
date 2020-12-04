@@ -1,6 +1,7 @@
 package nl.chefbierfles.captcha.module;
 
 import nl.chefbierfles.captcha.Captcha;
+import nl.chefbierfles.captcha.helpers.SkullHelper;
 import nl.chefbierfles.captcha.helpers.constants.Permissions;
 import nl.chefbierfles.captcha.managers.CaptchaManager;
 import nl.chefbierfles.captcha.models.menus.CaptchaMenu;
@@ -74,7 +75,7 @@ public final class CaptchaModule extends BaseModule {
         ItemStack clickedItem = event.getCurrentItem();
 
         //Check if capatchaItem is clicked
-        if (clickedItem.isSimilar(captchaMenu.getInvalidItem()) || clickedItem.isSimilar(captchaMenu.getSecondInvalidItem())) {
+        if (SkullHelper.isSameSkull(captchaMenu.getInvalidItem(), clickedItem) || SkullHelper.isSameSkull(captchaMenu.getSecondInvalidItem(), clickedItem)) {
 
             //Check of maximaal bereikt is
             if (captchaMenu.getMistakesMade() >= captchaMenu.getMaxMistakes()) {
@@ -87,7 +88,7 @@ public final class CaptchaModule extends BaseModule {
             captchaManager.updateCaptchaMenu((Player) event.getWhoClicked(), captchaMenu);
         }
 
-        if (clickedItem.getItemMeta().getDisplayName() == captchaMenu.getCorrectItem().getItemMeta().getDisplayName()) {
+        if (SkullHelper.isSameSkull(captchaMenu.getCorrectItem(), clickedItem)) {
 
             if (captchaMenu.replaceCorrectItem(event.getSlot(), (Player) event.getWhoClicked()) == 0) {
                 //Captcha is done

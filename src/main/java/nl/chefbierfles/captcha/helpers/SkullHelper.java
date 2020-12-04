@@ -84,4 +84,12 @@ public final class SkullHelper {
         }
     }
 
+    public final static boolean isSameSkull(ItemStack itemStack1, ItemStack itemStack2) {
+
+
+
+        return itemStack1.getItemMeta().equals(itemStack2.getItemMeta());
+
+    }
+
 }
