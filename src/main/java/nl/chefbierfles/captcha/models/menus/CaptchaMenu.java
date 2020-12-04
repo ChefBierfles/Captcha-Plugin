@@ -136,18 +136,15 @@ public class CaptchaMenu {
         }
 
         SkullMeta correctItemMeta = (SkullMeta) correctItem.getItemStack().getItemMeta();
-        String correctItemDesc = correctItem.getDescription();
-        correctItemMeta.setDisplayName(correctItemDesc.substring(0, 1).toUpperCase() + correctItemDesc.substring(1));
+        correctItemMeta.setDisplayName(" ");
         correctItem.getItemStack().setItemMeta(correctItemMeta);
 
         SkullMeta invalidItemMeta = (SkullMeta) invalidItem.getItemStack().getItemMeta();
-        String invalidItemDesc = invalidItem.getDescription();
-        invalidItemMeta.setDisplayName(invalidItemDesc.substring(0, 1).toUpperCase() + invalidItemDesc.substring(1));
+        invalidItemMeta.setDisplayName(" ");
         invalidItem.getItemStack().setItemMeta(invalidItemMeta);
 
         SkullMeta secondInvalidItemMeta = (SkullMeta) secondInvalidItem.getItemStack().getItemMeta();
-        String secondInvalidItemDesc = secondInvalidItem.getDescription();
-        secondInvalidItemMeta.setDisplayName(secondInvalidItemDesc.substring(0, 1).toUpperCase() + secondInvalidItemDesc.substring(1));
+        secondInvalidItemMeta.setDisplayName(" ");
         secondInvalidItem.getItemStack().setItemMeta(secondInvalidItemMeta);
     }
 
