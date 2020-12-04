@@ -1,8 +1,8 @@
 package nl.chefbierfles.captcha.module;
 
 import com.mongodb.*;
-import nl.chefbierfles.captcha.Plugin;
-import nl.chefbierfles.captcha.models.constants.DatabaseFields;
+import nl.chefbierfles.captcha.Captcha;
+import nl.chefbierfles.captcha.helpers.constants.DatabaseFields;
 import nl.chefbierfles.captcha.module.base.BaseModule;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -27,7 +27,7 @@ public final class DatabaseModule extends BaseModule {
                 "O5oHINE77BvE",
                 "cluster0.zfbz8.mongodb.net", "Capatcha")) {
             //Don't launch plugin if database connection doesnt succeeed
-            JavaPlugin.getPlugin(Plugin.class).onDisable();
+            JavaPlugin.getPlugin(Captcha.class).onDisable();
         }
     }
 

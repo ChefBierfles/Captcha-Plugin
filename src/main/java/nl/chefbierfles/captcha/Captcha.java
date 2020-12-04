@@ -6,13 +6,13 @@ import nl.chefbierfles.captcha.module.CaptchaModule;
 import nl.chefbierfles.captcha.module.DatabaseModule;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public final class Plugin extends JavaPlugin {
+public final class Captcha extends JavaPlugin {
 
     public ModuleManager moduleManager = new ModuleManager();
 
     @Override
     public void onEnable() {
-        // Plugin startup logic
+        // Captcha startup logic
         getServer().getPluginManager().registerEvents(new InventoryClickEventListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerJoinEventListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerQuitEventListener(), this);
@@ -26,6 +26,6 @@ public final class Plugin extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        // Captcha shutdown logic
     }
 }

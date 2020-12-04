@@ -1,6 +1,6 @@
 package nl.chefbierfles.captcha.module.base;
 
-import nl.chefbierfles.captcha.Plugin;
+import nl.chefbierfles.captcha.Captcha;
 import nl.chefbierfles.captcha.managers.ModuleManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -8,19 +8,23 @@ public abstract class BaseModule {
 
     protected String name;
     protected boolean isEnabled;
-    private ModuleManager moduleManager = JavaPlugin.getPlugin(Plugin.class).moduleManager;
+    private ModuleManager moduleManager = JavaPlugin.getPlugin(Captcha.class).moduleManager;
 
     protected boolean isEnabled() {
         //TODO: Hook up to config
         return isEnabled;
     }
 
-    protected void toggleEnabled() {
+    protected void toggleModule() {
         isEnabled = !isEnabled;
     }
 
-    protected void toggleEnabled(boolean value) {
-        isEnabled = value;
+    protected void enableModule(boolean value) {
+        isEnabled = true;
+    }
+
+    protected void disableModule(boolean value) {
+        isEnabled = false;
     }
 
     public String getName() {

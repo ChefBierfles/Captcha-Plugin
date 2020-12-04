@@ -2,12 +2,12 @@ package nl.chefbierfles.captcha.models;
 
 import org.bukkit.inventory.ItemStack;
 
-public class CapatchaItem {
+public class CaptchaItem {
 
     private ItemStack itemStack;
     private String description;
 
-    public CapatchaItem(ItemStack itemStack, String description) {
+    public CaptchaItem(ItemStack itemStack, String description) {
         this.itemStack = itemStack;
         this.description = description;
     }

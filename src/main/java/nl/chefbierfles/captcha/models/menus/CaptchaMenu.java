@@ -1,12 +1,13 @@
 package nl.chefbierfles.captcha.models.menus;
 
-import nl.chefbierfles.captcha.models.CapatchaItem;
-import nl.chefbierfles.captcha.models.constants.captcha.CaptchaOptions;
+import nl.chefbierfles.captcha.helpers.constants.captcha.CaptchaOptions;
+import nl.chefbierfles.captcha.models.CaptchaItem;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -16,8 +17,8 @@ import java.util.*;
 public class CaptchaMenu {
 
     private Inventory inventory;
-    private CapatchaItem correctItem;
-    private CapatchaItem invalidItem;
+    private CaptchaItem correctItem;
+    private CaptchaItem invalidItem;
 
     private ItemStack backgroundItem;
     private ItemStack informationItem;
@@ -28,9 +29,9 @@ public class CaptchaMenu {
     private int inventoryClosed = 0;
     private int maxInventoryClosed = 3;
 
-    public CaptchaMenu() {
+    public CaptchaMenu(InventoryHolder inventoryHolder) {
 
-        initMenu();
+        initMenu(inventoryHolder);
     }
 
     public ItemStack getCorrectItem() {
@@ -49,8 +50,8 @@ public class CaptchaMenu {
 
     }
 
-    public Inventory initMenu() {
-        inventory = Bukkit.createInventory(null, 54, ChatColor.DARK_GRAY + "Capatcha");
+    public Inventory initMenu(InventoryHolder inventoryHolder) {
+        inventory = Bukkit.createInventory(inventoryHolder, 54, ChatColor.DARK_GRAY + "Capatcha");
 
         getRandomColorOption();
         generateMenuBackground();
@@ -116,7 +117,7 @@ public class CaptchaMenu {
     }
 
     private void getRandomColorOption() {
-        CapatchaItem[] captchaOptions = CaptchaOptions.getOptions();
+        CaptchaItem[] captchaOptions = CaptchaOptions.getOptions();
 
         //Pick random first color
         correctItem = captchaOptions[new Random().nextInt(captchaOptions.length)];

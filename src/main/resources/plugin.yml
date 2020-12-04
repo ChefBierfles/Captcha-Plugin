@@ -1,4 +1,4 @@
 name: Captcha
 version: ${project.version}
-main: nl.chefbierfles.captcha.Plugin
+main: nl.chefbierfles.captcha.Captcha
 api-version: 1.12
