@@ -19,6 +19,7 @@ public class CaptchaMenu {
     private Inventory inventory;
     private CaptchaItem correctItem;
     private CaptchaItem invalidItem;
+    private CaptchaItem secondInvalidItem;
 
     private ItemStack backgroundItem;
     private ItemStack informationItem;
@@ -40,6 +41,10 @@ public class CaptchaMenu {
 
     public ItemStack getInvalidItem() {
         return invalidItem.getItemStack();
+    }
+
+    public ItemStack getSecondInvalidItem() {
+        return secondInvalidItem.getItemStack();
     }
 
     public void updateMenu(Player player) {
@@ -126,6 +131,10 @@ public class CaptchaMenu {
             invalidItem = captchaOptions[new Random().nextInt(captchaOptions.length)];
         }
 
+        while(invalidItem == null || correctItem == invalidItem) {
+            secondInvalidItem = captchaOptions[new Random().nextInt(captchaOptions.length)];
+        }
+
         SkullMeta correctItemMeta = (SkullMeta) correctItem.getItemStack().getItemMeta();
         String correctItemDesc = correctItem.getDescription();
         correctItemMeta.setDisplayName(correctItemDesc.substring(0, 1).toUpperCase() + correctItemDesc.substring(1));
@@ -135,6 +144,11 @@ public class CaptchaMenu {
         String invalidItemDesc = invalidItem.getDescription();
         invalidItemMeta.setDisplayName(invalidItemDesc.substring(0, 1).toUpperCase() + invalidItemDesc.substring(1));
         invalidItem.getItemStack().setItemMeta(invalidItemMeta);
+
+        SkullMeta secondInvalidItemMeta = (SkullMeta) secondInvalidItem.getItemStack().getItemMeta();
+        String secondInvalidItemDesc = secondInvalidItem.getDescription();
+        secondInvalidItemMeta.setDisplayName(secondInvalidItemDesc.substring(0, 1).toUpperCase() + secondInvalidItemDesc.substring(1));
+        secondInvalidItem.getItemStack().setItemMeta(secondInvalidItemMeta);
     }
 
     private void generateMenuBackground() {
@@ -163,6 +177,8 @@ public class CaptchaMenu {
         informationItem = signItem;
         //endregion
 
+        int currentCorrectItemAmount = 0;
+
         for (int index = 0; index < inventory.getSize(); index++) {
 
             if (index <= 8) {
@@ -179,9 +195,11 @@ public class CaptchaMenu {
 
             if (index > 8 && index <= 44) {
 
-                double correctItemChance = Math.random();
+                // Random number between 12 and 5.
+                double correctItemAmount = Math.floor(Math.random() * (12 - 5 + 1)) + 5;
 
-                if (correctItemChance < 0.25) {
+                if (currentCorrectItemAmount < correctItemAmount) {
+                    correctItemAmount++;
                     inventoryContents[index] = correctItem.getItemStack();
                 } else {
                     inventoryContents[index] = invalidItem.getItemStack();

@@ -10,8 +10,7 @@ public final class ModuleManager {
 
     protected Collection<BaseModule> modules = new ArrayList<>();
 
-    public ModuleManager() {
-    }
+    public ModuleManager() {}
 
     public void registerModule(BaseModule baseModule) {
         modules.add(baseModule);
