@@ -20,18 +20,10 @@ public final class CaptchaModule extends BaseModule {
 
     private CaptchaManager captchaManager;
 
-    public CaptchaModule() {
-        name = this.getClass().getName();
+    public CaptchaModule(DatabaseModule databaseModule) {
+        name = "CaptchaModule";
         isEnabled = true;
-        captchaManager = new CaptchaManager();
-    }
-
-    /*
-    Open inventory
-     */
-    public void openCaptchaMenu(Player player) {
-        CaptchaMenu captchaMenu = captchaManager.getCaptchaMenu(player);
-        player.openInventory(captchaMenu.getInventory());
+        captchaManager = new CaptchaManager(databaseModule);
     }
 
     /*
@@ -46,7 +38,7 @@ public final class CaptchaModule extends BaseModule {
         CompletableFuture.supplyAsync(() -> getModuleManager().getDatabaseModule().getCaptchaData(player))
                 .thenAccept(lastDoneDate -> {
                     if (lastDoneDate == null || new Date().after(DateUtils.addMonths(lastDoneDate, 1))) {
-                        openCaptchaMenu(player);
+                        captchaManager.openCaptchaMenu(player);
                     }
                 });
     }
@@ -81,7 +73,7 @@ public final class CaptchaModule extends BaseModule {
         ItemStack clickedItem = event.getCurrentItem();
 
         //Check if capatchaItem is clicked
-        if (clickedItem.getItemMeta().getDisplayName() == captchaMenu.getInvalidItem().getItemMeta().getDisplayName()) {
+        if (clickedItem.getItemMeta().getDisplayName() == captchaMenu.getInvalidItem().getItemMeta().getDisplayName() || clickedItem.getItemMeta().getDisplayName() == captchaMenu.getSecondInvalidItem().getItemMeta().getDisplayName()) {
 
             //Check of maximaal bereikt is
             if (captchaMenu.getMistakesMade() >= captchaMenu.getMaxMistakes()) {
@@ -130,7 +122,7 @@ public final class CaptchaModule extends BaseModule {
                 return true;
             }
             captchaMenu.addInventoryClosed();
-            openCaptchaMenu(player);
+            captchaManager.openCaptchaMenu(player);
         }
 
         return true;
@@ -156,7 +148,7 @@ public final class CaptchaModule extends BaseModule {
                 return true;
             }
             captchaMenu.addInventoryClosed();
-            openCaptchaMenu(player);
+            captchaManager.openCaptchaMenu(player);
         }
 
         return true;
@@ -182,7 +174,7 @@ public final class CaptchaModule extends BaseModule {
                 return true;
             }
             captchaMenu.addInventoryClosed();
-            openCaptchaMenu(player);
+            captchaManager.openCaptchaMenu(player);
         }
 
         return true;

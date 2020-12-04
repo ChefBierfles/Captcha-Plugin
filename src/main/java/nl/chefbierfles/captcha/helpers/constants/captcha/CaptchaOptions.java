@@ -15,7 +15,7 @@ public class CaptchaOptions {
             new CaptchaItem(SkullHelper.itemWithBase64(PlayerSkullTextures.COLOR_RED), "rode"),
             new CaptchaItem(SkullHelper.itemWithBase64(PlayerSkullTextures.COLOR_ROYAL_BLUE), "blauwe"),
             new CaptchaItem(SkullHelper.itemWithBase64(PlayerSkullTextures.COLOR_WHITE), "witte"),
-            new CaptchaItem(SkullHelper.itemWithBase64(PlayerSkullTextures.COLOR_DEEP_PINK), "roze"),
+            new CaptchaItem(SkullHelper.itemWithBase64(PlayerSkullTextures.COLOR_HOT_PINK), "roze"),
             new CaptchaItem(SkullHelper.itemWithBase64(PlayerSkullTextures.COLOR_ORANGE), "oranje")
     };
 

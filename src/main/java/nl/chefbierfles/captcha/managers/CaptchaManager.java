@@ -1,6 +1,7 @@
 package nl.chefbierfles.captcha.managers;
 
 import nl.chefbierfles.captcha.models.menus.CaptchaMenu;
+import nl.chefbierfles.captcha.module.DatabaseModule;
 import org.bukkit.entity.Player;
 
 import java.util.Calendar;
@@ -10,8 +11,11 @@ import java.util.UUID;
 public final class CaptchaManager {
 
     private HashMap<UUID, CaptchaMenu> OPEN_CAPTCHA_MENUS = new HashMap<>();
+    private DatabaseModule databaseModule;
 
-    public CaptchaManager() {}
+    public CaptchaManager(DatabaseModule databaseModule) {
+        this.databaseModule = databaseModule;
+    }
 
     /*
     Get menu reference for player
@@ -58,8 +62,16 @@ public final class CaptchaManager {
         if (!OPEN_CAPTCHA_MENUS.containsKey(uuid)) return;
 
         //Zet database waarde om over een maand weer te controleren
-        getModuleManager().getDatabaseModule().addCapatchaData(uuid, Calendar.getInstance().getTime());
+        databaseModule.addCapatchaData(uuid, Calendar.getInstance().getTime());
 
         OPEN_CAPTCHA_MENUS.remove(uuid);
+    }
+
+    /*
+    Open inventory
+    */
+    public void openCaptchaMenu(Player player) {
+        CaptchaMenu captchaMenu = getCaptchaMenu(player);
+        player.openInventory(captchaMenu.getInventory());
     }
 }

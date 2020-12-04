@@ -20,8 +20,8 @@ public final class Captcha extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new AsyncPlayerChatEventListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerMoveEventListener(), this);
 
-        moduleManager.registerModule(new CaptchaModule());
         moduleManager.registerModule(new DatabaseModule());
+        moduleManager.registerModule(new CaptchaModule(moduleManager.getDatabaseModule()));
     }
 
     @Override

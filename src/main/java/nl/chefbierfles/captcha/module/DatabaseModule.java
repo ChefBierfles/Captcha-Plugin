@@ -19,7 +19,7 @@ public final class DatabaseModule extends BaseModule {
 
     public DatabaseModule() {
 
-        name = this.getClass().getName();
+        name = "DatabaseModule";
         isEnabled = true;
 
         if (!connect(

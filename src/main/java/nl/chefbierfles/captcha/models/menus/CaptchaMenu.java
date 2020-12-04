@@ -104,7 +104,7 @@ public class CaptchaMenu {
          */
     public int replaceCorrectItem(int slot, Player player) {
         ItemStack[] inventoryContents = inventory.getContents();
-        inventoryContents[slot] = getInvalidItem();
+        inventoryContents[slot] = Math.random() > 0.5 ? getInvalidItem() : getSecondInvalidItem();
         inventory.setContents(inventoryContents);
 
         int correctItemsLeft = 0;
@@ -131,7 +131,7 @@ public class CaptchaMenu {
             invalidItem = captchaOptions[new Random().nextInt(captchaOptions.length)];
         }
 
-        while(invalidItem == null || correctItem == invalidItem) {
+        while(secondInvalidItem == null || correctItem == secondInvalidItem || secondInvalidItem == invalidItem) {
             secondInvalidItem = captchaOptions[new Random().nextInt(captchaOptions.length)];
         }
 
@@ -177,8 +177,6 @@ public class CaptchaMenu {
         informationItem = signItem;
         //endregion
 
-        int currentCorrectItemAmount = 0;
-
         for (int index = 0; index < inventory.getSize(); index++) {
 
             if (index <= 8) {
@@ -195,14 +193,13 @@ public class CaptchaMenu {
 
             if (index > 8 && index <= 44) {
 
-                // Random number between 12 and 5.
-                double correctItemAmount = Math.floor(Math.random() * (12 - 5 + 1)) + 5;
+                double correctItemChance = Math.random();
 
-                if (currentCorrectItemAmount < correctItemAmount) {
-                    correctItemAmount++;
+                if (correctItemChance < 0.25 && correctItemChance > 0.10) {
                     inventoryContents[index] = correctItem.getItemStack();
                 } else {
-                    inventoryContents[index] = invalidItem.getItemStack();
+                    ItemStack invalidItemStack = Math.random() > 0.5 ? invalidItem.getItemStack() : secondInvalidItem.getItemStack();
+                    inventoryContents[index] = invalidItemStack;
                 }
 
                 continue;
