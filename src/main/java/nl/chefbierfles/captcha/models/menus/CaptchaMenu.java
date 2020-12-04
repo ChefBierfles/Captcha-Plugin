@@ -111,7 +111,7 @@ public class CaptchaMenu {
 
         for (int index = 0; index < inventoryContents.length; index++) {
 
-            if (inventoryContents[index].getItemMeta().getDisplayName() == correctItem.getItemStack().getItemMeta().getDisplayName()) {
+            if (inventoryContents[index].isSimilar(correctItem.getItemStack())) {
                 correctItemsLeft++;
             }
         }
@@ -192,7 +192,7 @@ public class CaptchaMenu {
 
                 double correctItemChance = Math.random();
 
-                if (correctItemChance < 0.25 && correctItemChance > 0.10) {
+                if (correctItemChance < 0.15) {
                     inventoryContents[index] = correctItem.getItemStack();
                 } else {
                     ItemStack invalidItemStack = Math.random() > 0.5 ? invalidItem.getItemStack() : secondInvalidItem.getItemStack();

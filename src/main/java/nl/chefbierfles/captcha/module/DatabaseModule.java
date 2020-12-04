@@ -3,10 +3,12 @@ package nl.chefbierfles.captcha.module;
 import com.mongodb.*;
 import nl.chefbierfles.captcha.Captcha;
 import nl.chefbierfles.captcha.helpers.constants.DatabaseFields;
+import nl.chefbierfles.captcha.managers.ConfigManager;
 import nl.chefbierfles.captcha.module.base.BaseModule;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -18,30 +20,24 @@ public final class DatabaseModule extends BaseModule {
     private MongoClient client;
 
     public DatabaseModule() {
+        super();
 
         name = "DatabaseModule";
         isEnabled = true;
 
-        if (!connect(
-                "admin",
-                "O5oHINE77BvE",
-                "cluster0.zfbz8.mongodb.net", "Capatcha")) {
-            //Don't launch plugin if database connection doesnt succeeed
-            JavaPlugin.getPlugin(Captcha.class).onDisable();
-        }
+        connect(getConfigManager().getDatabaseConnectionString());
     }
 
-    public boolean connect(String authUser, String encodedPwd, String hostName, String dbName) {
+    public void connect(String connectionString) {
         // Mongodb connection string.
 
-        String client_url = "mongodb+srv://" + authUser + ":" + encodedPwd + "@" + hostName + "/" + dbName + "?retryWrites=true&w=majority";
-
+        String client_url = connectionString;
         MongoClientURI uri = new MongoClientURI(client_url);
+
         client = new MongoClient(uri);
 
         playersDb = client.getDB("Captcha");
         players = playersDb.getCollection("players");
-        return true;
     }
 
     public void addCaptchaData(UUID uuid, Date date) {

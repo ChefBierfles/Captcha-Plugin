@@ -23,6 +23,7 @@ public final class CaptchaModule extends BaseModule {
     private CaptchaManager captchaManager;
 
     public CaptchaModule(DatabaseModule databaseModule) {
+        super();
         name = "CaptchaModule";
         isEnabled = true;
         captchaManager = new CaptchaManager(databaseModule);
@@ -37,15 +38,12 @@ public final class CaptchaModule extends BaseModule {
 
         if (player.hasPermission(Permissions.PERMISSION_CAPTCHA_BYPASS)) return;
 
-        captchaManager.getCaptchaMenu(player);
-        captchaManager.finishCaptcha(player.getUniqueId());
-
-//        CompletableFuture.supplyAsync(() -> getModuleManager().getDatabaseModule().getCaptchaData(player))
-//                .thenAccept(lastDoneDate -> {
-//                    if (lastDoneDate == null || new Date().after(DateUtils.addMonths(lastDoneDate, 1))) {
-//                        captchaManager.openCaptchaMenu(player);
-//                    }
-//                });
+        CompletableFuture.supplyAsync(() -> getModuleManager().getDatabaseModule().getCaptchaData(player))
+                .thenAccept(lastDoneDate -> {
+                    if (lastDoneDate == null || new Date().after(DateUtils.addMonths(lastDoneDate, 1))) {
+                        captchaManager.openCaptchaMenu(player);
+                    }
+                });
     }
 
     /*

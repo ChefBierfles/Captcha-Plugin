@@ -2,9 +2,12 @@ package nl.chefbierfles.captcha.helpers;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.material.MaterialData;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -33,8 +36,8 @@ public final class SkullHelper {
             return null;
         }
         SkullMeta meta = (SkullMeta) item.getItemMeta();
+        meta.setOwningPlayer(Bukkit.getPlayer("3dfd5c70-cbf3-43e2-9da3-8d45b1660d46"));
         mutateItemMeta(meta, base64);
-        meta.setDisplayName(" ");
         item.setItemMeta(meta);
 
         return item;
@@ -73,7 +76,7 @@ public final class SkullHelper {
                 b64.substring(b64.length() - 20).hashCode(),
                 b64.substring(b64.length() - 10).hashCode()
         );
-        GameProfile profile = new GameProfile(id, null);
+        GameProfile profile = new GameProfile(id, "lalalala cashewnoot");
         profile.getProperties().put("textures", new Property("textures", b64));
         return profile;
     }
@@ -84,12 +87,8 @@ public final class SkullHelper {
         }
     }
 
-    public final static boolean isSameSkull(ItemStack itemStack1, ItemStack itemStack2) {
-
-
-
-        return itemStack1.getItemMeta().equals(itemStack2.getItemMeta());
-
+    public static boolean isSameSkull(ItemStack itemStack1, ItemStack itemStack2) {
+        return itemStack1.isSimilar(itemStack2);
     }
 
 }

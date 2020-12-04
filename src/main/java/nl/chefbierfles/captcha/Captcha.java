@@ -1,6 +1,7 @@
 package nl.chefbierfles.captcha;
 
 import nl.chefbierfles.captcha.listener.*;
+import nl.chefbierfles.captcha.managers.ConfigManager;
 import nl.chefbierfles.captcha.managers.ModuleManager;
 import nl.chefbierfles.captcha.module.CaptchaModule;
 import nl.chefbierfles.captcha.module.DatabaseModule;
@@ -8,11 +9,15 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Captcha extends JavaPlugin {
 
-    public ModuleManager moduleManager = new ModuleManager();
+    public ModuleManager moduleManager;
+    public ConfigManager configManager;
 
     @Override
     public void onEnable() {
-        // Captcha startup logic
+
+        configManager = new ConfigManager();
+        moduleManager = new ModuleManager();
+
         getServer().getPluginManager().registerEvents(new InventoryClickEventListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerJoinEventListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerQuitEventListener(), this);
@@ -25,7 +30,5 @@ public final class Captcha extends JavaPlugin {
     }
 
     @Override
-    public void onDisable() {
-        // Captcha shutdown logic
-    }
+    public void onDisable() { }
 }
