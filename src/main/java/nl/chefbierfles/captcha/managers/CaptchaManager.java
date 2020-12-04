@@ -17,9 +17,6 @@ public final class CaptchaManager {
         this.databaseModule = databaseModule;
     }
 
-    /*
-    Get menu reference for player
-    */
     public CaptchaMenu getCaptchaMenu(Player player) {
         if (OPEN_CAPTCHA_MENUS.containsKey(player.getUniqueId())) {
             //Update current inventory
@@ -31,33 +28,21 @@ public final class CaptchaManager {
         }
     }
 
-    /*
-    Update menu contents
-     */
     public void updateCaptchaMenu(Player player, CaptchaMenu captchaMenu) {
         captchaMenu.updateMenu(player);
         OPEN_CAPTCHA_MENUS.put(player.getUniqueId(), captchaMenu);
     }
 
-    /*
-    Check if player needs to do the captcha
-     */
     public boolean hasCaptcha(UUID uuid) {
         return OPEN_CAPTCHA_MENUS.containsKey(uuid);
     }
 
-    /*
-    Remove menu reference for player
-     */
     public void removeCaptcha(UUID uuid) {
         if (!OPEN_CAPTCHA_MENUS.containsKey(uuid)) return;
 
         OPEN_CAPTCHA_MENUS.remove(uuid);
     }
 
-    /*
-    Remove menu reference for player
-    */
     public void finishCaptcha(UUID uuid) {
         if (!OPEN_CAPTCHA_MENUS.containsKey(uuid)) return;
 
@@ -67,9 +52,6 @@ public final class CaptchaManager {
         OPEN_CAPTCHA_MENUS.remove(uuid);
     }
 
-    /*
-    Open inventory
-    */
     public void openCaptchaMenu(Player player) {
         CaptchaMenu captchaMenu = getCaptchaMenu(player);
         player.openInventory(captchaMenu.getInventory());
