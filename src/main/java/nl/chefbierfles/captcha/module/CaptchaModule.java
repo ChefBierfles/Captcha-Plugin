@@ -34,6 +34,8 @@ public final class CaptchaModule extends BaseModule implements ICaptchaModule {
      */
     public void onPlayerJoinHandler(Player player) {
 
+        System.out.println(System.currentTimeMillis() - time);
+
         if (!isEnabled()) return;
 
         if (player.hasPermission(Permissions.PERMISSION_CAPTCHA_BYPASS)) return;
