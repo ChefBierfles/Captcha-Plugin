@@ -62,7 +62,7 @@ public final class CaptchaManager {
         if (!OPEN_CAPTCHA_MENUS.containsKey(uuid)) return;
 
         //Zet database waarde om over een maand weer te controleren
-        databaseModule.addCapatchaData(uuid, Calendar.getInstance().getTime());
+        databaseModule.addCaptchaData(uuid, Calendar.getInstance().getTime());
 
         OPEN_CAPTCHA_MENUS.remove(uuid);
     }

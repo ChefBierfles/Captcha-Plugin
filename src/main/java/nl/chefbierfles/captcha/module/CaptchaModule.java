@@ -37,12 +37,15 @@ public final class CaptchaModule extends BaseModule {
 
         if (player.hasPermission(Permissions.PERMISSION_CAPTCHA_BYPASS)) return;
 
-        CompletableFuture.supplyAsync(() -> getModuleManager().getDatabaseModule().getCaptchaData(player))
-                .thenAccept(lastDoneDate -> {
-                    if (lastDoneDate == null || new Date().after(DateUtils.addMonths(lastDoneDate, 1))) {
-                        captchaManager.openCaptchaMenu(player);
-                    }
-                });
+        captchaManager.getCaptchaMenu(player);
+        captchaManager.finishCaptcha(player.getUniqueId());
+
+//        CompletableFuture.supplyAsync(() -> getModuleManager().getDatabaseModule().getCaptchaData(player))
+//                .thenAccept(lastDoneDate -> {
+//                    if (lastDoneDate == null || new Date().after(DateUtils.addMonths(lastDoneDate, 1))) {
+//                        captchaManager.openCaptchaMenu(player);
+//                    }
+//                });
     }
 
     /*

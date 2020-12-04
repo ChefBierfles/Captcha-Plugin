@@ -39,39 +39,39 @@ public final class DatabaseModule extends BaseModule {
         MongoClientURI uri = new MongoClientURI(client_url);
         client = new MongoClient(uri);
 
-        playersDb = client.getDB("Capatcha");
+        playersDb = client.getDB("Captcha");
         players = playersDb.getCollection("players");
         return true;
     }
 
-    public void addCapatchaData(UUID uuid, Date date) {
+    public void addCaptchaData(UUID uuid, Date date) {
         CompletableFuture.runAsync(() -> {
-            DBObject dbObject = new BasicDBObject("uuid", uuid);
+            DBObject dbObject = new BasicDBObject(DatabaseFields.CAPTCHA_UUID, uuid);
             DBObject result = getResults(dbObject);
 
             if (result != null) {
                 //Result already exists
-                updateCapatchaData(uuid, date);
+                updateCaptchaData(uuid, date);
                 return;
             }
 
-            dbObject.put(DatabaseFields.CAPATCHA_LASTDONE_DATE, date);
+            dbObject.put(DatabaseFields.CAPTCHA_LASTDONE_DATE, date);
             players.insert(dbObject);
         });
     }
 
-    public void updateCapatchaData(UUID uuid, Date date) {
+    public void updateCaptchaData(UUID uuid, Date date) {
         CompletableFuture.runAsync(() -> {
-            DBObject dbObject = new BasicDBObject("uuid", uuid);
+            DBObject dbObject = new BasicDBObject(DatabaseFields.CAPTCHA_UUID, uuid);
 
             DBObject found = players.findOne(dbObject);
             if (found == null) {
-                addCapatchaData(uuid, date);
+                addCaptchaData(uuid, date);
                 return;
             }
 
-            DBObject obj = new BasicDBObject("uuid", uuid);
-            obj.put(DatabaseFields.CAPATCHA_LASTDONE_DATE, date);
+            DBObject obj = new BasicDBObject(DatabaseFields.CAPTCHA_UUID, uuid);
+            obj.put(DatabaseFields.CAPTCHA_LASTDONE_DATE, date);
 
             players.update(found, obj);
         });
@@ -79,11 +79,11 @@ public final class DatabaseModule extends BaseModule {
 
     public Date getCaptchaData(Player player) {
         CompletableFuture<Date> completableFuture = CompletableFuture.supplyAsync(() -> {
-            DBObject dbObject = new BasicDBObject("uuid", player.getUniqueId());
+            DBObject dbObject = new BasicDBObject(DatabaseFields.CAPTCHA_UUID, player.getUniqueId());
 
             DBObject result = getResults(dbObject);
 
-            return (result == null) ? null : (Date) result.get(DatabaseFields.CAPATCHA_LASTDONE_DATE);
+            return (result == null) ? null : (Date) result.get(DatabaseFields.CAPTCHA_LASTDONE_DATE);
         });
 
         Date date = null;
