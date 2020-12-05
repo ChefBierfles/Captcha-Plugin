@@ -15,8 +15,10 @@ public final class Captcha extends JavaPlugin {
     @Override
     public void onEnable() {
 
-        configManager = new ConfigManager();
+        configManager = new ConfigManager(this);
         moduleManager = new ModuleManager();
+        moduleManager.registerModule(new DatabaseModule());
+        moduleManager.registerModule(new CaptchaModule(moduleManager.getDatabaseModule()));
 
         getServer().getPluginManager().registerEvents(new InventoryClickEventListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerJoinEventListener(), this);
@@ -25,8 +27,6 @@ public final class Captcha extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new AsyncPlayerChatEventListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerMoveEventListener(), this);
 
-        moduleManager.registerModule(new DatabaseModule());
-        moduleManager.registerModule(new CaptchaModule(moduleManager.getDatabaseModule()));
     }
 
     @Override

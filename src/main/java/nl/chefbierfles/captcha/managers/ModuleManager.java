@@ -1,12 +1,13 @@
 package nl.chefbierfles.captcha.managers;
 
+import nl.chefbierfles.captcha.interfaces.IModuleManager;
 import nl.chefbierfles.captcha.module.CaptchaModule;
 import nl.chefbierfles.captcha.module.DatabaseModule;
 import nl.chefbierfles.captcha.module.base.BaseModule;
 
 import java.util.*;
 
-public final class ModuleManager {
+public final class ModuleManager implements IModuleManager {
 
     protected Collection<BaseModule> modules = new ArrayList<>();
 
@@ -14,6 +15,10 @@ public final class ModuleManager {
 
     public void registerModule(BaseModule baseModule) {
         modules.add(baseModule);
+    }
+
+    public BaseModule[] getModules() {
+        return this.modules.toArray(new BaseModule[this.modules.size()]);
     }
 
     public BaseModule getModule(String moduleName) {

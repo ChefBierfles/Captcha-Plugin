@@ -5,6 +5,7 @@ import nl.chefbierfles.captcha.helpers.SkullHelper;
 import nl.chefbierfles.captcha.helpers.constants.Permissions;
 import nl.chefbierfles.captcha.interfaces.ICaptchaModule;
 import nl.chefbierfles.captcha.managers.CaptchaManager;
+import nl.chefbierfles.captcha.managers.ConfigManager;
 import nl.chefbierfles.captcha.models.menus.CaptchaMenu;
 import nl.chefbierfles.captcha.module.base.BaseModule;
 import org.apache.commons.lang3.time.DateUtils;

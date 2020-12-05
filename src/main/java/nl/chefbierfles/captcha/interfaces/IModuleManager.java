@@ -20,6 +20,12 @@ public interface IModuleManager {
     BaseModule getModule(String moduleName);
 
     /**
+     * Get all modules
+     * @return
+     */
+    BaseModule[] getModules();
+
+    /**
      * Get CaptchaModule
      * @return
      */

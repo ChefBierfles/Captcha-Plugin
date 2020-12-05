@@ -1,3 +1,3 @@
 modules:
   database:
-    connection_string: ""
+    connection_string: "mongodb+srv://<username>:<password>@cluster0.zfbz8.mongodb.net/<dbName>?retryWrites=true&w=majority"
