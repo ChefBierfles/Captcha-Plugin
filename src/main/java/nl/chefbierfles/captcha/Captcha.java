@@ -1,10 +1,10 @@
 package nl.chefbierfles.captcha;
 
-import nl.chefbierfles.captcha.listener.*;
+import nl.chefbierfles.captcha.listeners.*;
 import nl.chefbierfles.captcha.managers.ConfigManager;
 import nl.chefbierfles.captcha.managers.ModuleManager;
-import nl.chefbierfles.captcha.module.CaptchaModule;
-import nl.chefbierfles.captcha.module.DatabaseModule;
+import nl.chefbierfles.captcha.modules.CaptchaModule;
+import nl.chefbierfles.captcha.modules.DatabaseModule;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Captcha extends JavaPlugin {

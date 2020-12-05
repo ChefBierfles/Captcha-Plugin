@@ -1,4 +1,4 @@
-package nl.chefbierfles.captcha.listener.base;
+package nl.chefbierfles.captcha.listeners.base;
 
 import nl.chefbierfles.captcha.Captcha;
 import nl.chefbierfles.captcha.managers.ModuleManager;

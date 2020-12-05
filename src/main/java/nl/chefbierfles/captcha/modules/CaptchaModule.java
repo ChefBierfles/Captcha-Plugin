@@ -1,13 +1,12 @@
-package nl.chefbierfles.captcha.module;
+package nl.chefbierfles.captcha.modules;
 
 import nl.chefbierfles.captcha.Captcha;
 import nl.chefbierfles.captcha.helpers.SkullHelper;
 import nl.chefbierfles.captcha.helpers.constants.Permissions;
 import nl.chefbierfles.captcha.interfaces.ICaptchaModule;
 import nl.chefbierfles.captcha.managers.CaptchaManager;
-import nl.chefbierfles.captcha.managers.ConfigManager;
 import nl.chefbierfles.captcha.models.menus.CaptchaMenu;
-import nl.chefbierfles.captcha.module.base.BaseModule;
+import nl.chefbierfles.captcha.modules.base.BaseModule;
 import org.apache.commons.lang3.time.DateUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -26,7 +25,6 @@ public final class CaptchaModule extends BaseModule implements ICaptchaModule {
     public CaptchaModule(DatabaseModule databaseModule) {
         super();
         name = "CaptchaModule";
-        isEnabled = true;
         captchaManager = new CaptchaManager(databaseModule);
     }
 
@@ -34,8 +32,6 @@ public final class CaptchaModule extends BaseModule implements ICaptchaModule {
     When player joins and should do a captcha
      */
     public void onPlayerJoinHandler(Player player) {
-        
-        if (!isEnabled()) return;
 
         if (player.hasPermission(Permissions.PERMISSION_CAPTCHA_BYPASS)) return;
 
@@ -51,8 +47,6 @@ public final class CaptchaModule extends BaseModule implements ICaptchaModule {
     When player quits
      */
     public void onPlayerQuitHandler(Player player) {
-        if (!isEnabled()) return;
-
         captchaManager.removeCaptcha(player.getUniqueId());
     }
 
@@ -60,8 +54,6 @@ public final class CaptchaModule extends BaseModule implements ICaptchaModule {
     When a player tries to click a inventory slot
      */
     public boolean onInventoryClickHandler(InventoryClickEvent event) {
-
-        if (!isEnabled()) return false;
 
         if (!(event.getWhoClicked() instanceof Player)) return false;
 
@@ -109,8 +101,6 @@ public final class CaptchaModule extends BaseModule implements ICaptchaModule {
      */
     public boolean onAsyncPlayerChatHandler(Player player) {
 
-        if (!isEnabled()) return false;
-
         //Check if player still needs to do captcha
         if (!captchaManager.hasCaptcha(player.getUniqueId())) return false;
 
@@ -137,8 +127,6 @@ public final class CaptchaModule extends BaseModule implements ICaptchaModule {
      */
     public boolean onPlayerInteractHandler(Player player) {
 
-        if (!isEnabled()) return false;
-
         //Check if player still needs to do captcha
         if (!captchaManager.hasCaptcha(player.getUniqueId())) return false;
 
@@ -162,8 +150,6 @@ public final class CaptchaModule extends BaseModule implements ICaptchaModule {
     When a player tries to move
      */
     public boolean onPlayerMoveHandler(Player player) {
-
-        if (!isEnabled()) return false;
 
         //Check if player still needs to do captcha
         if (!captchaManager.hasCaptcha(player.getUniqueId())) return false;

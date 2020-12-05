@@ -1,6 +1,6 @@
-package nl.chefbierfles.captcha.listener;
+package nl.chefbierfles.captcha.listeners;
 
-import nl.chefbierfles.captcha.listener.base.BaseListener;
+import nl.chefbierfles.captcha.listeners.base.BaseListener;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 

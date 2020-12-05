@@ -1,8 +1,8 @@
 package nl.chefbierfles.captcha.interfaces;
 
-import nl.chefbierfles.captcha.module.CaptchaModule;
-import nl.chefbierfles.captcha.module.DatabaseModule;
-import nl.chefbierfles.captcha.module.base.BaseModule;
+import nl.chefbierfles.captcha.modules.CaptchaModule;
+import nl.chefbierfles.captcha.modules.DatabaseModule;
+import nl.chefbierfles.captcha.modules.base.BaseModule;
 
 public interface IModuleManager {
 

@@ -1,15 +1,11 @@
-package nl.chefbierfles.captcha.module;
+package nl.chefbierfles.captcha.modules;
 
 import com.mongodb.*;
-import nl.chefbierfles.captcha.Captcha;
 import nl.chefbierfles.captcha.helpers.constants.DatabaseFields;
 import nl.chefbierfles.captcha.interfaces.IDatabaseModule;
-import nl.chefbierfles.captcha.managers.ConfigManager;
-import nl.chefbierfles.captcha.module.base.BaseModule;
+import nl.chefbierfles.captcha.modules.base.BaseModule;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 
-import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -24,8 +20,6 @@ public final class DatabaseModule extends BaseModule implements IDatabaseModule 
         super();
 
         name = "DatabaseModule";
-        isEnabled = true;
-
         connect(getConfigManager().getDatabaseConnectionString());
     }
 
