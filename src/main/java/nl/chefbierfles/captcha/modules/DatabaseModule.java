@@ -2,7 +2,6 @@ package nl.chefbierfles.captcha.modules;
 
 import com.mongodb.*;
 import nl.chefbierfles.captcha.helpers.constants.DatabaseFields;
-import nl.chefbierfles.captcha.interfaces.IDatabaseModule;
 import nl.chefbierfles.captcha.modules.base.BaseModule;
 import org.bukkit.entity.Player;
 
@@ -10,7 +9,7 @@ import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
-public final class DatabaseModule extends BaseModule implements IDatabaseModule {
+public final class DatabaseModule extends BaseModule implements nl.chefbierfles.captcha.interfaces.DatabaseModule {
 
     private DBCollection players;
     private DB playersDb;

@@ -4,7 +4,7 @@ import nl.chefbierfles.captcha.modules.CaptchaModule;
 import nl.chefbierfles.captcha.modules.DatabaseModule;
 import nl.chefbierfles.captcha.modules.base.BaseModule;
 
-public interface IModuleManager {
+public interface ModuleManager {
 
     /**
      * Register a module

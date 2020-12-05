@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 import java.util.Date;
 import java.util.UUID;
 
-public interface IDatabaseModule {
+public interface DatabaseModule {
 
     /**
      * Handle connection to database

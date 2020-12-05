@@ -3,7 +3,7 @@ package nl.chefbierfles.captcha.interfaces;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-public interface ICaptchaModule {
+public interface CaptchaModule {
 
     /**
      * Handle if player needs to do the Captcha when joining

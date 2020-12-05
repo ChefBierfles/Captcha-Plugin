@@ -1,10 +1,9 @@
 package nl.chefbierfles.captcha.managers;
 
 import nl.chefbierfles.captcha.Captcha;
-import nl.chefbierfles.captcha.interfaces.IConfigManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class ConfigManager implements IConfigManager {
+public class ConfigManager implements nl.chefbierfles.captcha.interfaces.ConfigManager {
 
     private Captcha captcha;
 

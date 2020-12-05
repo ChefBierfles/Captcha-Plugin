@@ -1,6 +1,6 @@
 package nl.chefbierfles.captcha.interfaces;
 
-public interface IConfigManager {
+public interface ConfigManager {
 
     /**
      * Load config file into memory
