@@ -12,7 +12,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Random;
 
 public class CaptchaMenu {
 

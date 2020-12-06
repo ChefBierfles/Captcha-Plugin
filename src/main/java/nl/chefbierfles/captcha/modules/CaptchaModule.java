@@ -15,7 +15,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.*;
+import java.util.Date;
 import java.util.concurrent.CompletableFuture;
 
 public final class CaptchaModule extends BaseModule implements ICaptchaModule {

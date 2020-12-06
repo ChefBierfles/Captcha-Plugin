@@ -5,9 +5,7 @@ import com.mojang.authlib.properties.Property;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
-import org.bukkit.material.MaterialData;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -15,6 +13,8 @@ import java.lang.reflect.Method;
 import java.util.UUID;
 
 public final class SkullHelper {
+
+    private SkullHelper() {}
 
     private static Method metaSetProfileMethod;
     private static Field metaProfileField;

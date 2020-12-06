@@ -1,6 +1,5 @@
 package nl.chefbierfles.captcha.interfaces;
 
-import com.mongodb.DBObject;
 import org.bukkit.entity.Player;
 
 import java.util.Date;

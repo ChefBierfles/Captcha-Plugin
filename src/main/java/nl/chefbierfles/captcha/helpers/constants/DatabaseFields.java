@@ -1,6 +1,8 @@
 package nl.chefbierfles.captcha.helpers.constants;
 
-public class DatabaseFields {
+public final class DatabaseFields {
+
+    private DatabaseFields() {}
 
     //#region CAPTCHA FIELDS
     public final static String CAPTCHA_UUID = "_id";

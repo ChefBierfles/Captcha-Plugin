@@ -3,9 +3,10 @@ package nl.chefbierfles.captcha.helpers.constants.captcha;
 import nl.chefbierfles.captcha.helpers.SkullHelper;
 import nl.chefbierfles.captcha.helpers.constants.PlayerSkullTextures;
 import nl.chefbierfles.captcha.models.CaptchaItem;
-import org.bukkit.inventory.ItemStack;
 
-public class CaptchaOptions {
+public final class CaptchaOptions {
+
+    private CaptchaOptions() {}
 
     /*
     Could be hooked up to a config
@@ -19,7 +20,7 @@ public class CaptchaOptions {
             new CaptchaItem(SkullHelper.itemWithBase64(PlayerSkullTextures.COLOR_ORANGE), "oranje")
     };
 
-    public static CaptchaItem[] getOptions() {
+    public final static CaptchaItem[] getOptions() {
         return options;
     }
 }

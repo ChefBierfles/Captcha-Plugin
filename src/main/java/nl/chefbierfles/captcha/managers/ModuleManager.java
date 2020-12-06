@@ -5,7 +5,8 @@ import nl.chefbierfles.captcha.modules.CaptchaModule;
 import nl.chefbierfles.captcha.modules.DatabaseModule;
 import nl.chefbierfles.captcha.modules.base.BaseModule;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
 public final class ModuleManager implements IModuleManager {
 
