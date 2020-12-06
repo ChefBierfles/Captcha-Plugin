@@ -3,6 +3,7 @@ package nl.chefbierfles.captcha.modules;
 import nl.chefbierfles.captcha.Captcha;
 import nl.chefbierfles.captcha.helpers.SkullHelper;
 import nl.chefbierfles.captcha.helpers.constants.Permissions;
+import nl.chefbierfles.captcha.interfaces.ICaptchaModule;
 import nl.chefbierfles.captcha.managers.CaptchaManager;
 import nl.chefbierfles.captcha.models.menus.CaptchaMenu;
 import nl.chefbierfles.captcha.modules.base.BaseModule;
@@ -17,13 +18,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
-public final class CaptchaModule extends BaseModule implements nl.chefbierfles.captcha.interfaces.CaptchaModule {
+public final class CaptchaModule extends BaseModule implements ICaptchaModule {
 
     private CaptchaManager captchaManager;
 
     public CaptchaModule(DatabaseModule databaseModule) {
         super();
-        name = "CaptchaModule";
+        name = "ICaptchaModule";
         captchaManager = new CaptchaManager(databaseModule);
     }
 

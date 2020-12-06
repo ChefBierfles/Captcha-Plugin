@@ -1,5 +1,6 @@
 package nl.chefbierfles.captcha.managers;
 
+import nl.chefbierfles.captcha.interfaces.ICaptchaManager;
 import nl.chefbierfles.captcha.models.menus.CaptchaMenu;
 import nl.chefbierfles.captcha.modules.DatabaseModule;
 import org.bukkit.entity.Player;
@@ -8,7 +9,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.UUID;
 
-public final class CaptchaManager implements nl.chefbierfles.captcha.interfaces.CaptchaManager {
+public final class CaptchaManager implements ICaptchaManager {
 
     private HashMap<UUID, CaptchaMenu> OPEN_CAPTCHA_MENUS = new HashMap<>();
     private DatabaseModule databaseModule;

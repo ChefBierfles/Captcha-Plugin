@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-public interface CaptchaManager {
+public interface ICaptchaManager {
 
     /**
      * Get CaptchaMenu for player

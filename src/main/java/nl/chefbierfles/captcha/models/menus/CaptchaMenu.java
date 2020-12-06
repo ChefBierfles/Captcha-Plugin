@@ -192,7 +192,7 @@ public class CaptchaMenu {
 
                 double correctItemChance = Math.random();
 
-                if (correctItemChance < 0.15) {
+                if (correctItemChance < 0.20) {
                     inventoryContents[index] = correctItem.getItemStack();
                 } else {
                     ItemStack invalidItemStack = Math.random() > 0.5 ? invalidItem.getItemStack() : secondInvalidItem.getItemStack();

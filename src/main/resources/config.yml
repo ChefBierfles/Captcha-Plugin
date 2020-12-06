@@ -1,3 +1,13 @@
 modules:
+  # connectionString format -> mongodb+srv://admin:<password>@cluster0.zfbz8.mongodb.net/<dbname>?retryWrites=true&w=majority
   database:
-    connection_string: "mongodb+srv://<username>:<password>@cluster0.zfbz8.mongodb.net/<dbName>?retryWrites=true&w=majority"
+    # Optional
+    username: ""
+    # Optional
+    password: "123DenkHetNiet"
+    # Required
+    hostname: ""
+    # Optional
+    port: ""
+    # Optional
+    dbname: ""

@@ -1,12 +1,13 @@
 package nl.chefbierfles.captcha.managers;
 
+import nl.chefbierfles.captcha.interfaces.IModuleManager;
 import nl.chefbierfles.captcha.modules.CaptchaModule;
 import nl.chefbierfles.captcha.modules.DatabaseModule;
 import nl.chefbierfles.captcha.modules.base.BaseModule;
 
 import java.util.*;
 
-public final class ModuleManager implements nl.chefbierfles.captcha.interfaces.ModuleManager {
+public final class ModuleManager implements IModuleManager {
 
     protected Collection<BaseModule> modules = new ArrayList<>();
 
@@ -25,11 +26,11 @@ public final class ModuleManager implements nl.chefbierfles.captcha.interfaces.M
     }
 
     public CaptchaModule getCaptchaModule() {
-        return (CaptchaModule) modules.stream().filter(module -> module.getName() == "CaptchaModule").findFirst().get();
+        return (CaptchaModule) modules.stream().filter(module -> module.getName() == "ICaptchaModule").findFirst().get();
     }
 
     public DatabaseModule getDatabaseModule() {
-        return (DatabaseModule) modules.stream().filter(module -> module.getName() == "DatabaseModule").findFirst().get();
+        return (DatabaseModule) modules.stream().filter(module -> module.getName() == "IDatabaseModule").findFirst().get();
     }
 
 }

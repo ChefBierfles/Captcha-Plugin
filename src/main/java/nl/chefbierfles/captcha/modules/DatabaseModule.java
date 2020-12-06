@@ -2,14 +2,17 @@ package nl.chefbierfles.captcha.modules;
 
 import com.mongodb.*;
 import nl.chefbierfles.captcha.helpers.constants.DatabaseFields;
+import nl.chefbierfles.captcha.interfaces.IDatabaseModule;
 import nl.chefbierfles.captcha.modules.base.BaseModule;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.logging.Level;
 
-public final class DatabaseModule extends BaseModule implements nl.chefbierfles.captcha.interfaces.DatabaseModule {
+public final class DatabaseModule extends BaseModule implements IDatabaseModule {
 
     private DBCollection players;
     private DB playersDb;
@@ -18,20 +21,34 @@ public final class DatabaseModule extends BaseModule implements nl.chefbierfles.
     public DatabaseModule() {
         super();
 
-        name = "DatabaseModule";
-        connect(getConfigManager().getDatabaseConnectionString());
+        name = "IDatabaseModule";
+
+        String username = getConfigManager().getUsername();
+        String password = getConfigManager().getPassword();
+        String hostName = getConfigManager().getHostname();
+        String port = getConfigManager().getPort();
+        String dbName = getConfigManager().getDbName();
+
+        if (hostName.isEmpty()) {
+            return;
+        }
+
+        String connectionString = "mongodb+srv://" + username + (password.isEmpty() ? "" : ":" + password) + "@" + hostName + (port.isEmpty() ? "" : ":" + port) + "/" + dbName + "?retryWrites=true&w=majority";
+        
+        connect(connectionString);
     }
 
     public void connect(String connectionString) {
-        // Mongodb connection string.
 
         String client_url = connectionString;
-        MongoClientURI uri = new MongoClientURI(client_url);
-
-        client = new MongoClient(uri);
-
-        playersDb = client.getDB("Captcha");
-        players = playersDb.getCollection("players");
+        try {
+            MongoClientURI uri = new MongoClientURI(client_url);
+            client = new MongoClient(uri);
+            playersDb = client.getDB("Captcha");
+            players = playersDb.getCollection("players");
+        } catch (MongoConfigurationException exc) {
+            Bukkit.getLogger().log(Level.SEVERE, "Kon geen connectie maken met de database.");
+        }
     }
 
     public void addCaptchaData(UUID uuid, Date date) {
