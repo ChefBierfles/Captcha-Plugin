@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>nl.chefbierfles</groupId>
-    <artifactId>recapatcha</artifactId>
+    <artifactId>captcha</artifactId>
     <version>1.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
@@ -54,8 +54,8 @@
 
     <repositories>
         <repository>
-            <id>spigotmc-repo</id>
-            <url>file://C:/Users/Demian - Werk/Desktop/BuildTools/spigot-1.12.2.jar</url>
+            <id>papermc-repo</id>
+            <url>https://papermc.io/repo/repository/maven-public/</url>
         </repository>
         <repository>
             <id>sonatype</id>
@@ -65,10 +65,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot</artifactId>
-            <version>1.12.2-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
+            <groupId>com.destroystokyo.paper</groupId>
+            <artifactId>paper-api</artifactId>
+            <version>1.12.2-R0.1-20190714.184133-413</version>
         </dependency>
         <dependency>
             <groupId>org.mongodb</groupId>
