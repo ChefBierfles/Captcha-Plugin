@@ -8,7 +8,7 @@ public class PlayerJoinEventListener extends BaseListener {
 
     @EventHandler
     public void onPlayerJoinEvent(PlayerJoinEvent event) {
-        getModuleManager().getCaptchaModule().onPlayerJoinHandler(event.getPlayer());
+        getCaptchaModule().onPlayerJoinHandler(event.getPlayer());
     }
 
 }

@@ -1,5 +1,6 @@
 package nl.chefbierfles.captcha.interfaces;
 
+import nl.chefbierfles.captcha.modules.DatabaseModule;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 

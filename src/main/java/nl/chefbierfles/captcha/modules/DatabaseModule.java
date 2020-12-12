@@ -3,7 +3,7 @@ package nl.chefbierfles.captcha.modules;
 import com.mongodb.*;
 import nl.chefbierfles.captcha.helpers.constants.DatabaseFields;
 import nl.chefbierfles.captcha.interfaces.IDatabaseModule;
-import nl.chefbierfles.captcha.modules.base.BaseModule;
+import nl.chefbierfles.captcha.managers.ConfigManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -12,22 +12,22 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
 
-public final class DatabaseModule extends BaseModule implements IDatabaseModule {
+public final class DatabaseModule implements IDatabaseModule {
 
     private DBCollection players;
     private DB playersDb;
     private MongoClient client;
+    private ConfigManager configManager;
 
-    public DatabaseModule() {
-        super();
+    public DatabaseModule(ConfigManager configManager) {
 
-        name = "IDatabaseModule";
+        this.configManager = configManager;
 
-        String username = getConfigManager().getUsername();
-        String password = getConfigManager().getPassword();
-        String hostName = getConfigManager().getHostname();
-        String port = getConfigManager().getPort();
-        String dbName = getConfigManager().getDbName();
+        String username = this.configManager.getUsername();
+        String password = this.configManager.getPassword();
+        String hostName = this.configManager.getHostname();
+        String port = this.configManager.getPort();
+        String dbName = this.configManager.getDbName();
 
         if (hostName.isEmpty()) {
             return;

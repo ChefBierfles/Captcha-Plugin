@@ -8,7 +8,7 @@ public class InventoryClickEventListener extends BaseListener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        if (getModuleManager().getCaptchaModule().onInventoryClickHandler(event)) {
+        if (getCaptchaModule().onInventoryClickHandler(event)) {
             event.setCancelled(true);
         }
     }

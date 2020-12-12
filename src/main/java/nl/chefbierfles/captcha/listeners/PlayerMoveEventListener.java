@@ -8,7 +8,7 @@ public class PlayerMoveEventListener extends BaseListener {
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
-        if (getModuleManager().getCaptchaModule().onPlayerMoveHandler(event.getPlayer())) {
+        if (getCaptchaModule().onPlayerMoveHandler(event.getPlayer())) {
             event.setCancelled(true);
         }
     }

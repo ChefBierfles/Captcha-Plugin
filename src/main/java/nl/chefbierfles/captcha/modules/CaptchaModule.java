@@ -6,7 +6,6 @@ import nl.chefbierfles.captcha.helpers.constants.Permissions;
 import nl.chefbierfles.captcha.interfaces.ICaptchaModule;
 import nl.chefbierfles.captcha.managers.CaptchaManager;
 import nl.chefbierfles.captcha.models.menus.CaptchaMenu;
-import nl.chefbierfles.captcha.modules.base.BaseModule;
 import org.apache.commons.lang3.time.DateUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -18,14 +17,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.Date;
 import java.util.concurrent.CompletableFuture;
 
-public final class CaptchaModule extends BaseModule implements ICaptchaModule {
+public final class CaptchaModule implements ICaptchaModule {
 
     private CaptchaManager captchaManager;
+    private DatabaseModule databaseModule;
 
     public CaptchaModule(DatabaseModule databaseModule) {
-        super();
-        name = "ICaptchaModule";
         captchaManager = new CaptchaManager(databaseModule);
+        this.databaseModule = databaseModule;
     }
 
     /*
@@ -35,7 +34,7 @@ public final class CaptchaModule extends BaseModule implements ICaptchaModule {
 
         if (player.hasPermission(Permissions.PERMISSION_CAPTCHA_BYPASS)) return;
 
-        CompletableFuture.supplyAsync(() -> getModuleManager().getDatabaseModule().getCaptchaData(player))
+        CompletableFuture.supplyAsync(() -> databaseModule.getCaptchaData(player))
                 .thenAccept(lastDoneDate -> {
                     if (lastDoneDate == null || new Date().after(DateUtils.addMonths(lastDoneDate, 1))) {
                         captchaManager.openCaptchaMenu(player);

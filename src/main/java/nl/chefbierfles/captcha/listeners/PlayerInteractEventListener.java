@@ -8,7 +8,7 @@ public class PlayerInteractEventListener extends BaseListener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
-        if (getModuleManager().getCaptchaModule().onPlayerInteractHandler(event.getPlayer())) {
+        if (getCaptchaModule().onPlayerInteractHandler(event.getPlayer())) {
             event.setCancelled(true);
         }
     }
