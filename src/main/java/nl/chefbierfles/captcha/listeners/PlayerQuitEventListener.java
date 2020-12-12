@@ -8,6 +8,6 @@ public class PlayerQuitEventListener extends BaseListener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        getModuleManager().getCaptchaModule().onPlayerQuitHandler(event.getPlayer());
+        getCaptchaModule().onPlayerQuitHandler(event.getPlayer());
     }
 }

@@ -1,15 +1,21 @@
 package nl.chefbierfles.captcha.listeners.base;
 
 import nl.chefbierfles.captcha.Captcha;
-import nl.chefbierfles.captcha.managers.ModuleManager;
+import nl.chefbierfles.captcha.modules.CaptchaModule;
+import nl.chefbierfles.captcha.modules.DatabaseModule;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public abstract class BaseListener implements Listener {
 
-    private ModuleManager moduleManager = JavaPlugin.getPlugin(Captcha.class).moduleManager;
+    protected Captcha pluginInstance = (Captcha) JavaPlugin.getProvidingPlugin(Captcha.class);
 
-    protected ModuleManager getModuleManager() {
-        return moduleManager;
+    protected DatabaseModule getDatabaseModule() {
+        return pluginInstance.databaseModule;
     }
+
+    protected CaptchaModule getCaptchaModule() {
+        return pluginInstance.captchaModule;
+    }
+
 }
