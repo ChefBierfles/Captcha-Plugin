@@ -26,10 +26,10 @@ public class CaptchaMenu {
     private ItemStack informationItem;
 
     private int mistakesMade = 0;
-    private int maxMistakes = 3;
+    private final int maxMistakes = 3;
 
     private int inventoryClosed = 0;
-    private int maxInventoryClosed = 3;
+    private final int maxInventoryClosed = 3;
 
     public CaptchaMenu(InventoryHolder inventoryHolder) {
 
@@ -132,7 +132,7 @@ public class CaptchaMenu {
             invalidItem = captchaOptions[new Random().nextInt(captchaOptions.length)];
         }
 
-        while(secondInvalidItem == null || correctItem == secondInvalidItem || secondInvalidItem == invalidItem) {
+        while (secondInvalidItem == null || correctItem == secondInvalidItem || secondInvalidItem == invalidItem) {
             secondInvalidItem = captchaOptions[new Random().nextInt(captchaOptions.length)];
         }
 

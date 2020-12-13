@@ -10,7 +10,7 @@ import java.util.logging.Level;
 
 public class ConfigManager implements IConfigManager {
 
-    private Captcha captcha;
+    private final Captcha captcha;
 
     private String username;
     private String password;

@@ -17,7 +17,7 @@ public final class DatabaseModule implements IDatabaseModule {
     private DBCollection players;
     private DB playersDb;
     private MongoClient client;
-    private ConfigManager configManager;
+    private final ConfigManager configManager;
 
     public DatabaseModule(ConfigManager configManager) {
 
@@ -34,7 +34,7 @@ public final class DatabaseModule implements IDatabaseModule {
         }
 
         String connectionString = "mongodb+srv://" + username + (password.isEmpty() ? "" : ":" + password) + "@" + hostName + (port.isEmpty() ? "" : ":" + port) + "/" + dbName + "?retryWrites=true&w=majority";
-        
+
         connect(connectionString);
     }
 

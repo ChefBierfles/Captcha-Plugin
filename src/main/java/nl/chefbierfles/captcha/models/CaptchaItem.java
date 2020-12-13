@@ -4,8 +4,8 @@ import org.bukkit.inventory.ItemStack;
 
 public class CaptchaItem {
 
-    private ItemStack itemStack;
-    private String description;
+    private final ItemStack itemStack;
+    private final String description;
 
     public CaptchaItem(ItemStack itemStack, String description) {
         this.itemStack = itemStack;

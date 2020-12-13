@@ -14,10 +14,10 @@ import java.util.UUID;
 
 public final class SkullHelper {
 
-    private SkullHelper() {}
-
     private static Method metaSetProfileMethod;
     private static Field metaProfileField;
+    private SkullHelper() {
+    }
 
     /**
      * Modifies a skull to use the skin based on the given base64 string.
@@ -44,7 +44,7 @@ public final class SkullHelper {
     }
 
     private final static ItemStack getPlayerSkull() {
-        return new ItemStack(Material.SKULL_ITEM, 1, (short)3);
+        return new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
     }
 
     private final static void mutateItemMeta(SkullMeta meta, String b64) {

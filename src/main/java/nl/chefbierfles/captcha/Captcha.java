@@ -19,15 +19,16 @@ public final class Captcha extends JavaPlugin {
         databaseModule = new DatabaseModule(configManager);
         captchaModule = new CaptchaModule(databaseModule);
 
-        getServer().getPluginManager().registerEvents(new InventoryClickEventListener(), this);
-        getServer().getPluginManager().registerEvents(new PlayerJoinEventListener(), this);
-        getServer().getPluginManager().registerEvents(new PlayerQuitEventListener(), this);
-        getServer().getPluginManager().registerEvents(new PlayerInteractEventListener(), this);
-        getServer().getPluginManager().registerEvents(new AsyncPlayerChatEventListener(), this);
-        getServer().getPluginManager().registerEvents(new PlayerMoveEventListener(), this);
+        getServer().getPluginManager().registerEvents(new InventoryClickEventListener(captchaModule), this);
+        getServer().getPluginManager().registerEvents(new PlayerJoinEventListener(captchaModule), this);
+        getServer().getPluginManager().registerEvents(new PlayerQuitEventListener(captchaModule), this);
+        getServer().getPluginManager().registerEvents(new PlayerInteractEventListener(captchaModule), this);
+        getServer().getPluginManager().registerEvents(new AsyncPlayerChatEventListener(captchaModule), this);
+        getServer().getPluginManager().registerEvents(new PlayerMoveEventListener(captchaModule), this);
 
     }
 
     @Override
-    public void onDisable() { }
+    public void onDisable() {
+    }
 }

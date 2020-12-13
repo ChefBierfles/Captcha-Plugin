@@ -19,8 +19,8 @@ import java.util.concurrent.CompletableFuture;
 
 public final class CaptchaModule implements ICaptchaModule {
 
-    private CaptchaManager captchaManager;
-    private DatabaseModule databaseModule;
+    private final CaptchaManager captchaManager;
+    private final DatabaseModule databaseModule;
 
     public CaptchaModule(DatabaseModule databaseModule) {
         captchaManager = new CaptchaManager(databaseModule);

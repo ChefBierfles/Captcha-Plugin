@@ -9,6 +9,7 @@ public interface ICaptchaManager {
 
     /**
      * Get CaptchaMenu for player
+     *
      * @param player
      * @return
      */
@@ -16,6 +17,7 @@ public interface ICaptchaManager {
 
     /**
      * Update CaptchaMenu contents
+     *
      * @param player
      * @param captchaMenu
      */
@@ -23,6 +25,7 @@ public interface ICaptchaManager {
 
     /**
      * Check if player has active Captcha
+     *
      * @param uuid
      * @return
      */
@@ -30,18 +33,21 @@ public interface ICaptchaManager {
 
     /**
      * Remove CaptchaMenu reference
+     *
      * @param uuid
      */
     void removeCaptcha(UUID uuid);
 
     /**
      * Finish CaptchaMenu
+     *
      * @param uuid
      */
     void finishCaptcha(UUID uuid);
 
     /**
      * Open CaptchaMenu
+     *
      * @param player
      */
     void openCaptchaMenu(Player player);

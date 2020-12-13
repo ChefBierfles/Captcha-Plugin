@@ -9,12 +9,14 @@ public interface IDatabaseModule {
 
     /**
      * Handle connection to database
+     *
      * @param connectionString
      */
     void connect(String connectionString);
 
     /**
      * Add CaptchaData
+     *
      * @param uuid
      * @param date
      */
@@ -22,6 +24,7 @@ public interface IDatabaseModule {
 
     /**
      * Update CaptchaData
+     *
      * @param uuid
      * @param date
      */
@@ -29,6 +32,7 @@ public interface IDatabaseModule {
 
     /**
      * Get CaptchaData
+     *
      * @param player
      * @return
      */
