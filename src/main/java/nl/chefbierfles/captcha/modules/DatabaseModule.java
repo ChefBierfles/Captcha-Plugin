@@ -2,7 +2,6 @@ package nl.chefbierfles.captcha.modules;
 
 import com.mongodb.*;
 import nl.chefbierfles.captcha.helpers.constants.DatabaseFields;
-import nl.chefbierfles.captcha.interfaces.IDatabaseModule;
 import nl.chefbierfles.captcha.managers.ConfigManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -12,7 +11,7 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
 
-public final class DatabaseModule implements IDatabaseModule {
+public final class DatabaseModule {
 
     private DBCollection players;
     private DB playersDb;
@@ -44,7 +43,7 @@ public final class DatabaseModule implements IDatabaseModule {
         try {
             MongoClientURI uri = new MongoClientURI(client_url);
             client = new MongoClient(uri);
-            playersDb = client.getDB("Captcha");
+            playersDb = client.getDB("CaptchaPlugin");
             players = playersDb.getCollection("players");
         } catch (MongoConfigurationException exc) {
             Bukkit.getLogger().log(Level.SEVERE, "Kon geen connectie maken met de database.");

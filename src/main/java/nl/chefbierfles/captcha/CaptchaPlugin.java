@@ -6,11 +6,11 @@ import nl.chefbierfles.captcha.modules.CaptchaModule;
 import nl.chefbierfles.captcha.modules.DatabaseModule;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public final class Captcha extends JavaPlugin {
+public final class CaptchaPlugin extends JavaPlugin {
 
-    public ConfigManager configManager;
-    public CaptchaModule captchaModule;
-    public DatabaseModule databaseModule;
+    private ConfigManager configManager;
+    private CaptchaModule captchaModule;
+    private DatabaseModule databaseModule;
 
     @Override
     public void onEnable() {

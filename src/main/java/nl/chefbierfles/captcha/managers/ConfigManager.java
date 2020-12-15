@@ -1,16 +1,15 @@
 package nl.chefbierfles.captcha.managers;
 
-import nl.chefbierfles.captcha.Captcha;
-import nl.chefbierfles.captcha.interfaces.IConfigManager;
+import nl.chefbierfles.captcha.CaptchaPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.logging.Level;
 
-public class ConfigManager implements IConfigManager {
+public class ConfigManager {
 
-    private final Captcha captcha;
+    private final CaptchaPlugin captcha;
 
     private String username;
     private String password;
@@ -19,7 +18,7 @@ public class ConfigManager implements IConfigManager {
     private String port;
 
     public ConfigManager(JavaPlugin plugin) {
-        captcha = (Captcha) plugin;
+        captcha = (CaptchaPlugin) plugin;
 
         loadConfig();
     }

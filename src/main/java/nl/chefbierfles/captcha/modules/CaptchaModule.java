@@ -1,9 +1,8 @@
 package nl.chefbierfles.captcha.modules;
 
-import nl.chefbierfles.captcha.Captcha;
+import nl.chefbierfles.captcha.CaptchaPlugin;
 import nl.chefbierfles.captcha.helpers.SkullHelper;
 import nl.chefbierfles.captcha.helpers.constants.Permissions;
-import nl.chefbierfles.captcha.interfaces.ICaptchaModule;
 import nl.chefbierfles.captcha.managers.CaptchaManager;
 import nl.chefbierfles.captcha.models.menus.CaptchaMenu;
 import org.apache.commons.lang3.time.DateUtils;
@@ -17,7 +16,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.Date;
 import java.util.concurrent.CompletableFuture;
 
-public final class CaptchaModule implements ICaptchaModule {
+public final class CaptchaModule {
 
     private final CaptchaManager captchaManager;
     private final DatabaseModule databaseModule;
@@ -84,7 +83,7 @@ public final class CaptchaModule implements ICaptchaModule {
         if (SkullHelper.isSameSkull(captchaMenu.getCorrectItem(), clickedItem)) {
 
             if (captchaMenu.replaceCorrectItem(event.getSlot(), (Player) event.getWhoClicked()) == 0) {
-                //Captcha is done
+                //CaptchaPlugin is done
                 captchaManager.finishCaptcha(event.getWhoClicked().getUniqueId());
 
                 event.getWhoClicked().closeInventory();
@@ -109,7 +108,7 @@ public final class CaptchaModule implements ICaptchaModule {
         if (player.getOpenInventory().getTopInventory().getTitle() != captchaMenu.getInventory().getTitle()) {
             //Re-open menu
             if (captchaMenu.getInventoryClosed() >= captchaMenu.getMaxInventoryClosed()) {
-                Bukkit.getScheduler().runTask(JavaPlugin.getPlugin(Captcha.class), () -> {
+                Bukkit.getScheduler().runTask(JavaPlugin.getPlugin(CaptchaPlugin.class), () -> {
                     player.kickPlayer(ChatColor.RED + "Te veel ongeldige pogingen!");
                 });
                 return true;
